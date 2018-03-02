@@ -1,0 +1,13 @@
+{
+  "presets": ["es2015", "vue" , "stage-0"],
+  "plugins": [
+    "transform-runtime",
+    [
+      "component",
+      [{
+        "name":"vux-ui"
+      }]
+    ]
+  ],
+  "comments": false
+}

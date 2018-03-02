@@ -1,0 +1,124 @@
+<template>
+    <div class="ms-header">
+        <div class="ms-header-container">
+            <div class="ms-header-left">
+                <slot name="left">
+                    <button class="ms-header-back" @click="_goBack" v-if="showLeft">
+                        <i class="icon icon-back"></i>
+                    </button>
+                </slot>
+            </div>
+            <div class="ms-header-content">
+                <slot name="center">
+                    <p class="title">{{title}}</p>
+                </slot>
+            </div>
+            <div class="ms-header-right">
+                <slot name="right"></slot>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "ms-header",
+        props:{
+            title:{
+                type:String,
+                default:`标题`
+            },
+            showLeft:{
+                type:Boolean,
+                default:true
+            },
+            goBack:{
+                type:Function,
+                default:cb=>cb()
+            }
+        },
+        methods:{
+            _goBack(){
+                this.goBack(()=>this.$router.back())
+            }
+        }
+    }
+</script>
+
+<style scoped lang="scss">
+
+    .ms-header {
+        width: 100%;
+        height: 44px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        background: #fff;
+
+        .ms-header-container {
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 10px rgba(0,0,0,.15);
+        }
+
+        .ms-header-left ,.ms-header-right{
+            position: absolute;
+            top:0;
+            padding: 5px 0;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .ms-header-left {
+            left: 0;
+        }
+
+        .ms-header-right {
+            right: 0;
+        }
+
+        .ms-header-back {
+            width: 34px;
+            height: 34px;
+            background-color: transparent;
+            overflow: hidden;
+
+            &:active {
+                opacity: .5;
+            }
+        }
+
+        .icon {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .icon-back {
+            background-image: url('../../image/back_icon@2x.png');
+            background-size: 72% auto;
+        }
+
+        .ms-header-content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            margin: 5px 10px;
+            line-height: 34px;
+            text-align: center;
+            z-index: 0;
+        }
+
+        .title {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+    }
+</style>
