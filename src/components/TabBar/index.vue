@@ -1,28 +1,19 @@
 <template>
-    <div class="ms-tabbar" :class="reversedClass">
+    <div class="ms-tabbar" :class="positionClass">
         <div class="ms-tabbar-header">
             <div class="ms-tabbar-header-container">
-                <div
-                   class="ms-tabbar-tab"
-                   v-for="(tab,index ) in tableLabel"
-                   :key="index"
-                   @click="changeTab(index)"
-                   :class="tabActive(index)"
-                >
-                    <img
-                       class="icon"
-                       v-if="!!tab.icon"
-                       :src="getTabIcon(tab,index)"
-                    />
+                <div class="ms-tabbar-tab" v-for="(tab,index) in tableLabel" :key="tab.name" @click="changeTab(index)" :class="tabActive(index)">
                     <span class="label-text">
-                        {{tab.label}}
+                        {{tab.name}}
                     </span>
                 </div>
             </div>
             <div class="scroll-border" :style="getStyle"></div>
         </div>
         <div class="ms-tabbar-content">
-            <div class="aa"></div>
+            <div class="content-ani" :style="getContentStyle">
+                <slot></slot>
+            </div>
         </div>
     </div>
 </template>
@@ -33,7 +24,11 @@
         props:{
             position:{
                 type:String,
-                default:`top`
+                default:`top`,
+                validator(value) {
+                    const vali = [`top`, `bottom`];
+                    return vali.includes(value);
+                }
             },
 
             tableLabel:{
@@ -53,10 +48,16 @@
         data(){
             return {}
         },
+        mounted(){
+
+        },
+        updated(a,b){
+
+        },
         computed:{
-            reversedClass(){
+            positionClass(){
                 const { position } = this;
-                return position !== `bottom` ? `top` : `bottom`;
+                return { [position]:true }
             },
             getStyle(){
                 const { tableLabel , page } = this;
@@ -65,6 +66,14 @@
                     transform:`translateX(${page*100}%)`,
                     '-webkit-transform':`translateX(${page*100}%)`
                 }
+            },
+            getContentStyle(){
+                const { tableLabel , page } = this;
+                return {
+                    width:`${tableLabel.length*100}%`,
+                    transform:`translateX(-${(page/tableLabel.length)*100}%)`,
+                    '-webkit-transform':`translateX(-${(page/tableLabel.length)*100}%)`
+                }
             }
         },
         methods:{
@@ -72,12 +81,13 @@
                this.onChange(index);
             },
             tabActive( index ) {
-                return index === this.page ? `active`:``
-            },
-            getTabIcon( tab, index ){
-                const { icon , activeIcon } = tab;
-                return index === this.page ? activeIcon : icon;
+                return {
+                    active:this.page===index
+                }
             }
+        },
+        watch:{
+
         }
     }
 </script>
@@ -156,6 +166,13 @@
 
         .ms-tabbar-content {
             width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .content-ani {
             height: 100%;
             position: relative;
         }

@@ -5,13 +5,14 @@ const instance = axios.create({
     timeout: 1000 * 10,
 });
 
-const common = (method, url, para) => {
+const common = (method, url, params) => {
     return new Promise((resolve, reject) => {
-        instance[method](url, para).then(res => {
-            if (res.success) {
-                resolve(res);
+        instance[method]( url, { params }).then(res => {
+            const { data } = res;
+            if (data.success) {
+                resolve(data);
             } else {
-                reject(res);
+                reject(data);
             }
         }).catch(err => {
             reject({

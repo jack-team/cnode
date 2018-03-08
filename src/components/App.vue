@@ -1,6 +1,6 @@
 
 <template>
-    <div id="app">
+    <div id="app" @touchmove.prevent>
         <router-view></router-view>
     </div>
 </template>
@@ -23,5 +23,6 @@
         max-width: 640px;
         height: 100%;
         background-color: #f2f2f2;
+        overflow: hidden;
     }
 </style>

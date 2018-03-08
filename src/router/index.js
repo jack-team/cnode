@@ -7,12 +7,21 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+import Tpl from './../components/Tpl';
+
 const routers = [
     {
-        path: '/',
-        component:( resolve ) => {
-            require( ['../views/index.vue'] , resolve )
-        }
+        path: '/topic',
+        name:'topic',
+        redirect:'/topic/good',
+        component:Tpl,
+        children:[
+            {
+                path:':category',
+                name:'category',
+                component:()=>import('../views/index.vue')
+            }
+        ]
     },
 ];
 

@@ -103,7 +103,7 @@
 
             pullDown() {
                 this.jRoll.pulldown({
-                    textLoading: "正在刷新..",
+                    textLoading: "正在刷新",
                     spinning: false,
                     iconArrow: this.getImageStr(this.iconArrow),
                     iconLoading: this.getImageStr(this.iconLoading),

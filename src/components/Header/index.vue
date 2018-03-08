@@ -109,7 +109,7 @@
             top:0;
             bottom: 0;
             margin: 5px 10px;
-            line-height: 34px;
+
             text-align: center;
             z-index: 0;
         }
@@ -117,6 +117,7 @@
         .title {
             font-size: 16px;
             color: #333;
+            line-height: 34px;
             font-weight: 500;
         }
 
