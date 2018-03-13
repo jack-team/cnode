@@ -118,7 +118,7 @@
             bottom: 0;
             left: 0;
             height: 2px;
-            background-color: #1abc9c;
+            background-color: #FF5655;
             transition: all .3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
@@ -138,7 +138,7 @@
             }
 
             &.active {
-                color:#1abc9c;
+                color:#FF5655;
             }
 
             .label-text {

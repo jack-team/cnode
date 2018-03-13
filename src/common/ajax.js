@@ -7,16 +7,18 @@ const instance = axios.create({
 
 const common = (method, url, params) => {
     return new Promise((resolve, reject) => {
-        instance[method]( url, { params }).then(res => {
+        const para = method === `get` ? { params } : params;
+        instance[method]( url, para).then(res => {
             const { data } = res;
             if (data.success) {
                 resolve(data);
             } else {
                 reject(data);
             }
-        }).catch(err => {
+        }).catch(({response}) => {
             reject({
-                success:false
+                ...response.data,
+                success:false,
             });
         })
     });

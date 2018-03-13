@@ -17,6 +17,7 @@
   "author": "jiangtao",
   "license": "ISC",
   "dependencies": {
+    "autosize": "^4.0.0",
     "axios": "^0.18.0",
     "fastclick": "^1.0.6",
     "iscroll": "^5.2.0",

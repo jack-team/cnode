@@ -6,12 +6,16 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import home from './modules/home';
+import detail from './modules/detail';
+import user from './modules/user';
 
 const store = new Vuex.Store({
     modules : {
-        home
+        home,
+        detail,
+        user
     }
-})
+});
 
 export default store;
 

@@ -15,5 +15,12 @@ export default  {
                type:type
            })
        })
+   },
+   //储存页面的滚动位置
+   [types.savePageScrollY]({commit}, para ){
+       const { scrollY ,category } = para;
+       commit(types.savePageScrollY,{
+           scrollY,category
+       });
    }
 }

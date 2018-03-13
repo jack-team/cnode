@@ -1,42 +1,36 @@
 <template>
     <div class="ms-page" v-has-header>
-        <ms-header :showLeft="false">
-            <button class="menu-icon" slot="left" @click="openSlider"></button>
-
+        <ms-header :showLeft="false" :title="title">
+            <button class="menu-icon" slot="left" @click="()=>this.leftSlider=true"></button>
         </ms-header>
         <tab-bar :tableLabel="tableLabel" :page="page" :onChange="pageChange">
             <tabbar-item v-for="(tab,index) in tableLabel" :key="tab.name">
                 <center-content v-if="!!savePage[`page_${index}`]" :category="tab.category"></center-content>
             </tabbar-item>
         </tab-bar>
-        <modal :show="rightSlider" :position="'left'" :onClose="()=>this.rightSlider=false">
-            <div class="right-menu"></div>
-        </modal>
+        <Modal :show="leftSlider" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease'">
+            <Menu></Menu>
+        </Modal>
     </div>
 </template>
-
 <script>
-
     import {
         TabBar,
         TabbarItem,
         MsHeader,
         Modal
     } from './../components';
-
+    import Menu from './menu';
     import CenterContent from './center';
-
     export default {
         components: {
             MsHeader,
             TabBar,
             TabbarItem,
             Modal,
-            CenterContent
+            CenterContent,
+            Menu
         },
-
-        computed:{},
-
         data() {
             const tableLabel = [
                 { name:"精华",category:"good" },
@@ -49,38 +43,16 @@
             return {
                 title:'首页',
                 page:page,
-                rightSlider:false,
+                leftSlider:false,
                 tableLabel:tableLabel,
                 savePage:{[`page_${page}`]:`page_${page}`}
             }
         },
-
-        created() {
-
-        },
-
-        mounted() {
-
-
-        },
-
-        beforeMount() {
-
-        },
-
-        beforeDestroy() {
-
-        },
-
         methods: {
-            openSlider(){
-                this.rightSlider=true
-            },
-
             pageChange(index){
                 this.setIndexByPage(index);
                 const { category } = this.tableLabel[index];
-                this.$router.push(category);
+                this.$router.push(`/topic/${category}`);
             },
 
             setIndexByPage( index ){
@@ -93,7 +65,8 @@
                 const { params } = currentRoute;
                 const { category } = params;
                 const { tableLabel } = this;
-                return (tableLabel||tabs).findIndex(tab=>tab.category===category);
+                const pageIndex= (tableLabel||tabs).findIndex(tab=>tab.category===category);
+                return pageIndex < 0 ? 0 : pageIndex;
             }
         },
         watch:{
@@ -102,7 +75,6 @@
                 this.setIndexByPage(page);
             }
         }
-
     }
 </script>
 
@@ -119,11 +91,4 @@
             opacity: .5;
         }
     }
-
-    .right-menu {
-        width: 160px;
-        height: 100%;
-        background: #fff;
-    }
-
 </style>

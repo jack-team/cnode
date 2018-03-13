@@ -4,7 +4,7 @@
             <div class="ms-header-left">
                 <slot name="left">
                     <button class="ms-header-back" @click="_goBack" v-if="showLeft">
-                        <i class="icon icon-back"></i>
+                        <i class="icon icon-back" :class="{'icon-close':close}"></i>
                     </button>
                 </slot>
             </div>
@@ -35,6 +35,10 @@
             goBack:{
                 type:Function,
                 default:cb=>cb()
+            },
+            close:{
+                type:Boolean,
+                default:false
             }
         },
         methods:{
@@ -54,12 +58,11 @@
         top: 0;
         left: 0;
         z-index: 10;
-        background: #fff;
+        background: linear-gradient(to right, #FF7A4C, #FF5655);
 
         .ms-header-container {
             width: 100%;
             height: 100%;
-            box-shadow: 0 0 10px rgba(0,0,0,.15);
         }
 
         .ms-header-left ,.ms-header-right{
@@ -98,8 +101,14 @@
         }
 
         .icon-back {
-            background-image: url('../../image/back_icon@2x.png');
-            background-size: 72% auto;
+            background-image: url('back_icon@2x.png');
+            background-size: 66% auto;
+        }
+
+        .icon-close{
+            background-image: url('close_icon@2x.png');
+            background-size: 60% auto;
+            margin-left: 5px;
         }
 
         .ms-header-content {
@@ -116,7 +125,7 @@
 
         .title {
             font-size: 16px;
-            color: #333;
+            color: #fff;
             line-height: 34px;
             font-weight: 500;
         }

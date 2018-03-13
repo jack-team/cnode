@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="button-group">
-            <div v-for="btn in buttons"class="button" @click="()=>{
+            <div v-for="btn in buttons" class="button" @click="()=>{
                 const { onClick = function() {}} = btn || {};
                 onClick()!== false && handelClick();
             }">
@@ -24,22 +24,23 @@
 <script>
     export default {
         name: "popup",
-        props:{
-            buttons:{
-                type:Array,
-                default:()=>[]
+        props: {
+            buttons: {
+                type: Array,
+                default: () => []
             },
-            title:{
-                type:String,
-                default:`提示`
+            title: {
+                type: String,
+                default: `提示`
             },
-            message:{
-                type:String,
-                default:``
+            message: {
+                type: String,
+                default: ``
             },
-            handelClick:{
-                type:Function,
-                default:()=>{}
+            handelClick: {
+                type: Function,
+                default: () => {
+                }
             }
         }
     }
@@ -47,12 +48,14 @@
 
 <style scoped lang="scss">
     .popup-container {
+
         width: 280px;
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
 
         .content {
+
             padding: 20px;
             .title {
                 font-family: sans-serif;
@@ -67,6 +70,7 @@
                 font-size: 13px;
                 line-height: 13px;
                 font-weight: 400;
+
                 span {
                     display: block;
                 }
@@ -81,9 +85,11 @@
             height: 45px;
             display: flex;
             width: 100%;
-            border-top:1px solid #ececec;
+            border-top: 1px solid #ececec;
         }
+
         .button {
+
             flex: 1;
             display: block;
             background-color: #fff;
@@ -95,7 +101,7 @@
             border-right: 1px solid #ececec;
 
             &:last-child {
-                border-right:none
+                border-right: none
             }
 
             &:active {
@@ -103,5 +109,6 @@
                 color: #fff;
             }
         }
+
     }
 </style>

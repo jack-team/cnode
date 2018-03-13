@@ -1,4 +1,3 @@
-
 <template>
     <div id="app" @touchmove.prevent>
         <router-view></router-view>
@@ -6,8 +5,29 @@
 </template>
 
 <script type="es6">
-    export default {}
+    import userTypes from './../store/types/user';
+    import { mapActions , mapState } from 'vuex'
+    const actions = mapActions({...userTypes});
+    export default {
+        data(){
+            return {
+                ...actions
+            }
+        },
+        computed:{
+            ...mapState({
+                userState: state => state.user
+            })
+        },
+        mounted(){
+            const {access_token,isLogin} = this.userState;
+            if( isLogin ) {
+                this.login( access_token );
+            }
+        }
+    }
 </script>
+
 <style lang="scss">
     body {
         background-color: #555;
@@ -23,6 +43,6 @@
         max-width: 640px;
         height: 100%;
         background-color: #f2f2f2;
-        overflow: hidden;
+        overflow: auto;
     }
 </style>

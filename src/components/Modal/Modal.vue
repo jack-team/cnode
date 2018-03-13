@@ -1,8 +1,8 @@
 <template>
-    <div class="global-modal" :class="modalClass">
+    <div class="global-modal" :class="modalClass" :style="{height:modalHeight}">
         <div class="modal-container" :class="showClass">
-            <div class="modal-mask" @click="()=>!this.flag && this.onClose()"></div>
-            <div class="modal-content">
+            <div class="modal-mask" :style="maskStyle" @click="()=>!this.flag && !disableTapClose && this.onClose()"></div>
+            <div class="modal-content" :style="contentStyle">
                 <slot>
                     <div modal-content></div>
                 </slot>
@@ -16,7 +16,7 @@
         props: {
             show: {
                 type: Boolean,
-                default: true
+                default: false
             },
             onClose: {
                 type: Function,
@@ -36,7 +36,34 @@
                     `bottom`,
                     `center`
                 ].includes(value))
+            },
+            maskDuration:{
+                type:Number,
+                default:350
+            },
+            contentDuration:{
+                type:Number,
+                default:350
+            },
+            cubicBezier:{
+                type:String,
+                default:`cubic-bezier(0.77, 0, 0.175, 1)`
+            },
+            opacity:{
+                type:Number,
+                default:1
+            },
+            height:{
+                type:Number,
+                default:0
+            },
+            disableTapClose:{
+                type: Boolean,
+                default: false
             }
+        },
+        created() {
+            this.flag = false;
         },
         data() {
             return {
@@ -45,7 +72,8 @@
             }
         },
         destroyed(){
-          this.timer && clearTimeout(this.timer);
+          this.openTimer && clearTimeout(this.openTimer);
+          this.closeTimer && clearTimeout(this.closeTimer);
         },
         computed: {
             modalClass() {
@@ -55,9 +83,34 @@
                     show: modal
                 }
             },
+            modalHeight(){
+               const { height } = this;
+               return !!height ? `${height}px`:`auto`
+            },
             showClass(){
                 return {
                     [`modal-show`]:this.isShow
+                }
+            },
+            maskStyle(){
+                const { maskDuration , opacity } = this;
+                return {
+                    ...this.getCommonStyle(`${maskDuration/1000}s`),
+                    opacity:opacity
+                };
+            },
+            contentStyle(){
+                const { contentDuration  } = this;
+                return this.getCommonStyle(`${contentDuration/1000}s`);
+            },
+        },
+        methods:{
+            getCommonStyle ( duration ){
+                return {
+                    webkitTransitionDuration:duration,
+                    transitionDuration:duration,
+                    transitionTimingFunction:this.cubicBezier,
+                    webkitTransitionTimingFunction:this.cubicBezier
                 }
             }
         },
@@ -67,18 +120,20 @@
                 this.flag = true;
                 if (show) {
                     this.modal = show;
-                    requestAnimationFrame(() => {
-                        this.flag=false;
-                        this.isShow=true;
+                    this.openTimer = setTimeout(()=>{
+                        this.flag = false;
+                        this.isShow = true;
                         this.aniCallback();
-                    });
+                    },50)
                 } else {
-                    this.isShow=false;
-                    this.timer=setTimeout(() => {
-                        this.flag=false;
+                    this.isShow = false;
+                    this.closeTimer = setTimeout(() => {
+                        this.flag = false;
                         this.modal = false;
                         this.aniCallback();
-                    }, 350);
+                    }, Math.max(...[`mask`,`content`].map(key=>
+                        this[`${key}Duration`]
+                    )));
                 }
             }
         }
@@ -86,6 +141,7 @@
 </script>
 
 <style scoped lang="scss">
+
     .global-modal {
         position: absolute;
         left: 0;
@@ -100,7 +156,9 @@
         width: 100%;
         height: 100%;
         position: relative;
+        overflow: hidden;
     }
+
 
     .modal-mask {
         position: absolute;
@@ -111,11 +169,10 @@
         z-index: 1;
         opacity: 0;
         background-color: rgba(0, 0, 0, .5);
-        transition: all .35s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    .modal-content {
-        transition: all .35s cubic-bezier(0.23, 1, 0.32, 1);
+    .modal-mask,.modal-content {
+        transition-property: all;
     }
 
     .global-modal.show {
@@ -154,7 +211,7 @@
             z-index: 2;
         }
         .modal-show {
-            .content-show {
+            .modal-content {
                 transform: translateY(0);
             }
         }
@@ -182,7 +239,6 @@
             height: 100%;
             position: relative;
             z-index: 2;
-            transition-duration: .3s;
             transform:  scale(.2);
             opacity: 0;
             display: flex;

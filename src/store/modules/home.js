@@ -7,23 +7,28 @@ export default {
     state:{
         good:{
             list:[],
-            page:0
+            page:0,
+            pageY:0
         },
         share:{
             list:[],
-            page:0
+            page:0,
+            pageY:0
         },
         ask:{
             list:[],
-            page:0
+            page:0,
+            pageY:0
         },
         job:{
             list:[],
-            page:0
+            page:0,
+            pageY:0
         },
         dev:{
             list:[],
-            page:0
+            page:0,
+            pageY:0
         }
     },
     mutations:{
@@ -38,6 +43,10 @@ export default {
                state[category].list=categoryList.concat(list);
            }
            state[category].page = page;
+        },
+        [types.savePageScrollY](state , action){
+            const {  scrollY,category } = action;
+            state[category].pageY=scrollY;
         }
     }
 }

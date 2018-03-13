@@ -1,15 +1,26 @@
 <template>
-    <ScrollView :onRefresh="onRefresh" :onEndReached="loadMore">
-        <div v-for="(item , index ) in getList" class="item" :key="index" @click="jumpToPage">
-            <div class="item-top">
-                <div class="label">置顶</div>
-                <div class="title">
-                    {{item.title}}
-                </div>
-            </div>
+    <ScrollView :onRefresh="onRefresh" :onEndReached="loadMore" :onload="e=>this.scrollView=e" :onScroll="bindScroll">
+        <div v-for="(item , index) in getList" class="item" :key="index" @click="jumpToPage(item)">
             <div class="author">
-                <div class="author-avator" :style="{backgroundImage:`url(${item.author.avatar_url})`}">
-
+               <div class="left">
+                   <div class="author-avator" :style="{backgroundImage:`url(${item.author.avatar_url})`}"></div>
+                   <div class="author-name">{{item.author.loginname}}</div>
+               </div>
+               <div class="right">
+                   {{getTime(item.last_reply_at)}}
+               </div>
+            </div>
+            <div class="desc">
+                <p class="title">{{item.title}}</p>
+                <div class="desc-icon">
+                    <div class="desc-item">
+                        <i class="icon eye"></i>
+                        <span class="number">{{item.visit_count}}</span>
+                    </div>
+                    <div class="desc-item">
+                        <i class="icon comment"></i>
+                        <span class="number">{{item.reply_count}}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,13 +57,33 @@
             getList(){
                 const {home , category } = this;
                 return home[category].list;
+            },
+            getPageY(){
+                const {home , category } = this;
+                return home[category].pageY;
             }
+        },
 
-        },
         mounted(){
-            this.loadData(`refresh`);
+            this.init();
+            this.$nextTick(()=>{
+                this.scrollY = this.getPageY;
+                this.scrollView.scrollTo(0,this.scrollY);
+            });
         },
+
+        beforeDestroy(){
+            this.savePageScrollY({
+                scrollY: this.scrollY || 0,
+                category:this.category
+            });
+        },
+
         methods:{
+            init(){
+                if(!!this.getList.length) return;
+                this.loadData(`refresh`);
+            },
             onRefresh(cb){
                 this.loadData(`refresh`,cb);
             },
@@ -70,9 +101,13 @@
                     cb();
                 })
             },
-            jumpToPage(){
-                this.$modal.confrim(`提示`,`确定要删除信息吗？`)
-            }
+            jumpToPage({id}){
+                this.$router.push(`/detail/${id}`);
+            },
+            bindScroll({y}){
+               this.scrollY=y;
+            },
+            getTime:time=>diffTime(time)
         }
     }
 </script>
@@ -82,43 +117,91 @@
     $green:#1abc9c;
     $blue:#3498db;
     $yellow:#e67e22;
+
     .item {
-        padding: 10px;
-        border-bottom: 1px solid #ececec;
+        padding: 14px 12px;
+        margin-bottom: 10px;
         background-color: #fff;
+        border-top: 1px solid #ececec;
+        border-bottom: 1px solid #ececec;
 
-        .item-top {
+        &:first-child {
+            border-top: none;
+        }
+    }
+
+    .author {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .left {
             display: flex;
-
-            .label {
-                color: #fff;
-                font-size: 12px;
-                background-color: $green;
-                padding: 0 6px;
-                border-radius:2px;
-                line-height: 20px;
-                height: 20px;
-            }
-
-            .title {
-                flex: 1;
-                font-size: 16px;
-                margin-left: 6px;
-            }
+            align-items: center;
         }
 
-        .author {
-            display: flex;
+        .right {
+            font-size: 13px;
+            color: #999;
+        }
 
-            .author-avator {
-                width: 40px;
-                height: 40px;
-                border-radius: 20px;
+        .author-avator {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: #ececec;
+        }
+
+        .author-name {
+            font-size: 14px;
+            color: #666;
+            margin-left: 10px;
+        }
+    }
+
+    .desc {
+        padding: 16px 0 0 0;
+        .title {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 18px;
+            color: #545454;
+        }
+
+        .desc-icon {
+            display: flex;
+            .desc-item {
+                display: flex;
+                align-items: center;
+                font-size: 12px;
+                color: #a8b8c8;
+                min-width: 25%;
+                max-width: 50%;
+                margin-top: 10px;
+            }
+            .icon {
+                width: 20px;
+                height: 20px;
+                display: block;
                 background-position: center;
                 background-size: cover;
                 background-repeat: no-repeat;
-                border: 1px solid #ececec;
+            }
+            .icon.eye{
+                background-image: url("./../image/eye_icon@2x.png");
+            }
+            .icon.comment{
+                background-image: url("./../image/comment_icon@2x.png");
+                background-size: 85% auto;
+            }
+            .number {
+                display: block;
+                margin-left: 4px;
             }
         }
+
     }
 </style>

@@ -1,12 +1,9 @@
 /**
  * Created by jiangtao on 2017/6/11.
  */
-
-
 import Vue from 'vue';
 
-
-//
+import autoSize from 'autosize';
 
 Vue.directive(`has-header`,{
     inserted (el) {
@@ -36,5 +33,15 @@ Vue.directive(`bar-item`,{
     inserted :setBarItem,
     componentUpdated:setBarItem
 });
+
+Vue.directive(`textarea-auto`,{
+    bind:el=>autoSize(el),
+    unbind:el=> {
+        const evt = document.createEvent('Event');
+        evt.initEvent('autosize:destroy', true, false);
+        el.dispatchEvent(evt);
+    }
+});
+
 
 

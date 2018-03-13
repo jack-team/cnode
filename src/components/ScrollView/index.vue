@@ -3,13 +3,14 @@
         <div class="ms-scroll-content">
             <slot></slot>
         </div>
+        <button class="back-top" :class="{hide:!isShowToTop}" v-if="isToTop" @click="toTop"></button>
     </div>
 </template>
 <script>
     import jRoll from './jroll';
-    import Loading from './../../image/loading.gif';
-    import Arrow from './../../image/arrow.png';
-    import Success from './../../image/success.png';
+    import Loading from './loading.gif';
+    import Arrow from './arrow.png';
+    import Success from './success.png';
     const abs = num => Math.abs(num);
     export default {
         name: "scroll-view",
@@ -17,7 +18,7 @@
             //到底部多少像素执行onEndReached
             onEndReachedThreshold: {
                 type: Number,
-                default: 100
+                default:500
             },
             //到底部回调
             onEndReached: {
@@ -39,26 +40,38 @@
                 type: Function,
                 default: () => {}
             },
+            //下刷新向上箭头图标
             iconArrow:{
                 type:String,
                 default:Arrow
             },
+            //刷新完成图标
             iconFinish:{
                 type:String,
                 default:Success
             },
+            //刷新中loading图标
             iconLoading:{
                 type:String,
                 default:Loading
+            },
+            //scrollView 初始化完成后回调，返回滚动实列
+            onload:{
+                type: Function,
+                default: () => {}
+            },
+            isToTop:{
+                type:Boolean,
+                default:false
             }
-
         },
 
         data() {
             return {
                 scrollX: 0,
                 scrollY: 0,
-                sOnEndReached: false,
+                isOnEndReached: false,
+                isShowToTop:false,
                 nameConfig: {
                     x: [`right`, `left`],
                     y: [`down`, `up`]
@@ -77,7 +90,6 @@
         },
 
         methods: {
-
             init() {
                 const {element} = this.$refs;
                 this.jRoll = new jRoll(element, {
@@ -91,10 +103,15 @@
                 if (!this.disabledRefresh) {
                     this.pullDown()
                 }
+
+                this.onload(this.jRoll);
             },
 
             getCurrentSize(el) {
-                return el.getBoundingClientRect();
+                return {
+                    height:el.clientHeight,
+                    width:el.clientWidth
+                };
             },
 
             getImageStr(icon) {
@@ -113,7 +130,6 @@
             },
 
             bindEvent() {
-                const {on} = this.jRoll;
                 this.eventTypes.forEach(type => (
                     this.jRoll.on(type, e => this.handel(type))
                 ));
@@ -132,11 +148,17 @@
                         break;
                     case `scroll`:
                         this.handelOut();
+                        this.showTopButton();
                         break;
                     case `scrollEnd`:
                         this.handelOut();
                         break;
                 }
+            },
+
+            showTopButton(){
+                const { y ,wrapperHeight} = this.jRoll;
+                this.isShowToTop = (Math.abs(y)+50 > wrapperHeight);
             },
 
             handelOut() {
@@ -166,7 +188,6 @@
                 }
                 this.isOnEndReached = false;
             },
-
 
             computed() {
                 const {s} = this.jRoll;
@@ -212,7 +233,7 @@
                     const element = this.jRoll[type];
                     const oldWidth = ~~this.jRoll[`${type}Width`],
                         oldHeight = ~~this.jRoll[`${type}Height`];
-                    const {width, height} = this.getCurrentSize(element);
+                    const { width , height} = this.getCurrentSize(element);
                     return (~~width !== oldWidth || ~~height !== oldHeight);
                 });
             },
@@ -228,9 +249,14 @@
                 this.jRoll.refresh();
             },
 
-            beforeDestroy(){
-                this.jRoll && this.jRoll.destroy();
+            toTop(){
+                this.jRoll.scrollTo(0,0,300);
+                this.isShowToTop=false;
             }
+        },
+
+        beforeDestroy(){
+            this.jRoll && this.jRoll.destroy();
         }
     }
 </script>
@@ -239,6 +265,54 @@
     .ms-scroll {
         width: 100%;
         height: 100%;
+        position: relative;
+
+        .back-top {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+            border-radius: 24px;
+            right: 20px;
+            bottom: 100px;
+            background-color: #1abc9c;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 32px;
+                height: 32px;
+                border-radius: 16px;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-image: url("totop_icon@2x.png");
+                z-index: 2;
+            }
+
+            &:after {
+                content: '';
+                width: 30px;
+                height: 30px;
+                background-color: #fff;
+                border-radius: 15px;
+                display: block;
+                z-index: 1;
+            }
+
+            &:after,&:before{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+
+            &.hide {
+                display: none;
+            }
+        }
     }
 </style>
 
