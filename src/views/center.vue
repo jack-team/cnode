@@ -24,11 +24,14 @@
                 </div>
             </div>
         </div>
+        <div class="loading-container">
+            <Loading></Loading>
+        </div>
     </ScrollView>
 </template>
 
 <script>
-    import { ScrollView } from './../components';
+    import { Loading } from './../components';
     import { mapActions , mapState } from 'vuex'
     import homeTypes from './../store/types/home';
     const actions = mapActions({...homeTypes});
@@ -41,7 +44,7 @@
             }
         },
         components:{
-            ScrollView
+            Loading
         },
         data(){
             return {
@@ -203,5 +206,10 @@
             }
         }
 
+    }
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        padding: 8px;
     }
 </style>

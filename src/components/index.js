@@ -5,6 +5,8 @@ import App from './App';
 import ScrollView from './ScrollView/index';
 import Modal from './Modal/Modal';
 import MsButton from './Button/index';
+import Loading from './Loading/index';
+import MsSelect from './Select/index';
 
 export {
     MsHeader,
@@ -13,5 +15,7 @@ export {
     App,
     ScrollView,
     Modal,
-    MsButton
+    MsButton,
+    Loading,
+    MsSelect
 }

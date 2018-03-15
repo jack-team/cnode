@@ -7,12 +7,10 @@
 <script type="es6">
     import userTypes from './../store/types/user';
     import { mapActions , mapState } from 'vuex'
-    const actions = mapActions({...userTypes});
+    const  actions = mapActions({...userTypes});
     export default {
         data(){
-            return {
-                ...actions
-            }
+            return { ...actions }
         },
         computed:{
             ...mapState({
@@ -20,9 +18,13 @@
             })
         },
         mounted(){
-            const {access_token,isLogin} = this.userState;
+            const {access_token , isLogin } = this.userState;
             if( isLogin ) {
                 this.login( access_token );
+            } else {
+                // this.$openLogin(()=>{
+                //
+                // });
             }
         }
     }

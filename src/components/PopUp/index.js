@@ -2,12 +2,15 @@ import { Manager } from './../Modal';
 import PopUp from './Popup';
 import Tip from './Tip';
 import Toast from './Toast';
+import TipLoading from './TipLoading';
 
 class popup extends Manager {
     constructor(){
         super();
         //是否存在tip
         this._hasTip=false;
+        //全局TipLoading
+        this._tipLoading = null;
     }
     dialog ( title , message , buttons = [] ) {
         const _self = this;
@@ -81,7 +84,7 @@ class popup extends Manager {
         });
     }
 
-    toast(msg){
+    toast(msg,cb=()=>{}){
         const _self = this;
         const _toast = this.create(Toast,{
             position:`center`,
@@ -95,6 +98,7 @@ class popup extends Manager {
         _toast.aniCallback = function () {
             if (!this.show) {
                 _self.close(this);
+                cb();
             }
         };
         requestAnimationFrame(() => {
@@ -103,6 +107,37 @@ class popup extends Manager {
                 _toast.show=false;
             },1500)
         });
+    }
+
+    loading(msg){
+        const _self = this;
+        this._tipLoading = this.create(TipLoading,{
+            position:`center`,
+            maskDuration:200,
+            contentDuration:200,
+            show:false,
+            opacity:.2,
+            customStyle:{
+                transform:`scale(1)`,
+                webkitTransform:`scale(1)`
+            }
+        },{
+            message:msg
+        });
+        this._tipLoading.aniCallback = function () {
+            if (!this.show) {
+                _self.close(this);
+            }
+        };
+        requestAnimationFrame(() => {
+            this._tipLoading.show=true;
+        });
+    }
+
+    loadingClose(){
+        if(this._tipLoading) {
+            this._tipLoading.show=false;
+        }
     }
 }
 

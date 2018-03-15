@@ -30,7 +30,7 @@
                         点击评论
                     </ms-button>
                 </div>
-                <div class="comment-content">
+                <div class="comment-content" v-if="!!getDesc.replies.length">
                     <div v-for="comment in getDesc.replies" class="comment-list">
                         <div class="comment-user">
                             <div
@@ -54,13 +54,14 @@
             :contentDuration="250"
             :onClose="()=>this.modalShow=false"
         >
-            <form class="comment-form">
+            <form class="comment-form" @submit.prevent="onSubmit">
                 <div class="input-wrapper">
                     <textarea
                        v-textarea-auto
                        contenteditable="true"
                        placeholder="输入评论"
                        class="input-comment"
+                       v-model="commentText"
                     >
                     </textarea>
                 </div>
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-    import { ScrollView , MsHeader , Modal ,MsButton} from './../components';
+    import { MsHeader , Modal ,MsButton} from './../components';
     import { mapActions , mapState } from 'vuex'
     import detailTypes from './../store/types/detail';
     const actions = mapActions({...detailTypes});
@@ -79,7 +80,6 @@
         name: "detail",
         components:{
             MsHeader,
-            ScrollView,
             Modal,
             MsButton
         },
@@ -88,14 +88,16 @@
                 ...actions,
                 disabledRefresh:true,
                 isToTop:true,
-                modalShow:false
+                modalShow:false,
+                commentText:``
             }
         },
         computed:{
             ...mapState({
                 detail: state => {
                     return state.detail
-                }
+                },
+                userState:state=>state.user
             }),
 
             getTopicId(){
@@ -124,6 +126,24 @@
             },
             showCommentModal(){
                 this.modalShow=!this.modalShow
+            },
+            onSubmit(){
+                let { commentText ,userState } = this;
+                commentText = commentText.trim();
+                if(!commentText){
+                    return this.$PopUp.tip(`请输入评论`);
+                }
+                const { access_token } = userState;
+                loading(`发送中...`);
+                this.$http.post(`/topic/${this.getTopicId}/replies`,{
+                    accesstoken:access_token,
+                    content:commentText
+                }).then(()=>{
+                    this.$PopUp.toast(`评论成功！`);
+                    this.getData();
+                    this.commentText=``;
+                    this.showCommentModal();
+                }).finally(loadingClose);
             }
         }
     }

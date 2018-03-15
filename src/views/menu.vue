@@ -5,9 +5,14 @@
             <div class="me-name">{{userState.loginname}}</div>
         </div>
         <div class="login-entry" @click="goLogin" v-else>
-            <div class="login-icon"></div>
             <p class="text">登录</p>
+            <div class="login-icon"></div>
         </div>
+        <ul class="other-items">
+            <li class="item" @click="onRelease">发表</li>
+            <li class="item">消息</li>
+            <li class="item">发表</li>
+        </ul>
     </div>
 </template>
 <script>
@@ -22,8 +27,11 @@
         methods:{
             goLogin(){
                 const modal = this.$openLogin(()=> {
-                    modal.show=false
+                    modal.show = false
                 });
+            },
+            onRelease(){
+                this.$router.push(`/release`);
             }
         }
     }
@@ -50,31 +58,32 @@
             bottom: 0;
             right: 0;
             margin: auto;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             background-image: url("./../image/arrow_right.png");
         }
         .me-avator {
-           width:40px;
-           height:40px;
-           border-radius: 20px;
+           width:30px;
+           height:30px;
+           border-radius: 15px;
            background-size: cover;
            background-repeat: no-repeat;
            background-position: center;
         }
         .me-name {
-           font-size: 16px;
+           font-size: 14px;
            color: #555;
            margin-left: 10px;
         }
     }
     .login-entry {
+         justify-content: center;
         .login-icon {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -83,8 +92,44 @@
         .text {
             font-size: 16px;
             color: #666;
-            flex: 1;
-            padding-left: 20px;
+            margin-right: 10px;
+        }
+    }
+    .other-items {
+        .item {
+            height: 48px;
+            border-bottom: 1px solid #ececec;
+            position: relative;
+            line-height: 48px;
+            padding-left: 40px;
+            font-size: 16px;
+            color: #545454;
+            &:last-child{
+                border-bottom: none;
+            }
+            &:before,&:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+            &:before {
+                width: 24px;
+                height: 24px;
+                left: 0;
+                background-image: url("./../image/send_icon.png");
+            }
+            &:after {
+                width: 20px;
+                height: 20px;
+                right: 0;
+                background-image: url("./../image/arrow_right.png");
+            }
         }
     }
 </style>

@@ -45,10 +45,10 @@
                 this.$$modal.show = false;
             },
             onSubmit(e) {
-                const {token} = this;
+                const { token } = this;
                 if (!token) return this.$PopUp.tip(`请输入Access Token...`);
                 this.login(token).then( data => {
-                    this.success(data);
+                    this.success(this.goBack.bind(this),data);
                 }).catch(err=>{
                     this.$PopUp.tip(err.error_msg);
                 });

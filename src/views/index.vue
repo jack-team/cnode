@@ -8,7 +8,7 @@
                 <center-content v-if="!!savePage[`page_${index}`]" :category="tab.category"></center-content>
             </tabbar-item>
         </tab-bar>
-        <Modal :show="leftSlider" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease'">
+        <Modal :show="leftSlider" :opacity=".5" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease'">
             <Menu></Menu>
         </Modal>
     </div>
@@ -41,7 +41,7 @@
             ];
             const page = this.getCategoryToPage(tableLabel);
             return {
-                title:'首页',
+                title:'Cnode 社区',
                 page:page,
                 leftSlider:false,
                 tableLabel:tableLabel,

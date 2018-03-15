@@ -124,7 +124,7 @@
         }
 
         .title {
-            font-size: 16px;
+            font-size: 18px;
             color: #fff;
             line-height: 34px;
             font-weight: 500;

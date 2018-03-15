@@ -60,10 +60,16 @@
             disableTapClose:{
                 type: Boolean,
                 default: false
+            },
+            customStyle:{
+                type: Object,
+                default: ()=>{}
             }
         },
         created() {
             this.flag = false;
+            this.openTimer = null;
+            this.closeTimer = null;
         },
         data() {
             return {
@@ -72,8 +78,8 @@
             }
         },
         destroyed(){
-          this.openTimer && clearTimeout(this.openTimer);
-          this.closeTimer && clearTimeout(this.closeTimer);
+            this.openTimer && clearTimeout(this.openTimer);
+            this.closeTimer && clearTimeout(this.closeTimer);
         },
         computed: {
             modalClass() {
@@ -93,15 +99,19 @@
                 }
             },
             maskStyle(){
-                const { maskDuration , opacity } = this;
+                const { maskDuration , opacity , isShow } = this;
                 return {
                     ...this.getCommonStyle(`${maskDuration/1000}s`),
-                    opacity:opacity
+                    opacity:isShow?opacity:0
                 };
             },
             contentStyle(){
-                const { contentDuration  } = this;
-                return this.getCommonStyle(`${contentDuration/1000}s`);
+                const { contentDuration , customStyle } = this;
+                const commonStyle=this.getCommonStyle(`${contentDuration/1000}s`)
+                return {
+                    ...commonStyle,
+                    ...customStyle
+                };
             },
         },
         methods:{
@@ -112,21 +122,20 @@
                     transitionTimingFunction:this.cubicBezier,
                     webkitTransitionTimingFunction:this.cubicBezier
                 }
-            }
-        },
-        watch: {
-            show(show) {
-                if(this.flag) return;
-                this.flag = true;
-                if (show) {
-                    this.modal = show;
+            },
+            modalIn(){
+                this.modal = true;
+                this.$nextTick(()=> {
                     this.openTimer = setTimeout(()=>{
                         this.flag = false;
                         this.isShow = true;
                         this.aniCallback();
-                    },50)
-                } else {
-                    this.isShow = false;
+                    },16)
+                });
+            },
+            modalOut(){
+                this.isShow = false;
+                this.$nextTick(()=> {
                     this.closeTimer = setTimeout(() => {
                         this.flag = false;
                         this.modal = false;
@@ -134,7 +143,15 @@
                     }, Math.max(...[`mask`,`content`].map(key=>
                         this[`${key}Duration`]
                     )));
-                }
+                });
+            }
+        },
+        watch: {
+            show(show) {
+                if( this.flag ) return;
+                this.flag = true;
+                if(show)this.modalIn();
+                else this.modalOut();
             }
         }
     }
