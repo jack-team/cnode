@@ -35,6 +35,12 @@ const routers = [
         name:'release',
         component:()=>import('../views/release.vue'),
         shouldLogin:true
+    },
+    {
+        path:'/user/:loginName',
+        name:'user',
+        component:()=>import('../views/user.vue'),
+        shouldLogin:true
     }
 ];
 

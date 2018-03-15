@@ -1,6 +1,6 @@
 <template>
     <div class="right-menu">
-        <div class="me-info" v-if="!!userState">
+        <div class="me-info" v-if="!!userState" @click="goMy">
             <div class="me-avator" :style="{backgroundImage:`url(${userState.avatar_url})`}"></div>
             <div class="me-name">{{userState.loginname}}</div>
         </div>
@@ -32,6 +32,10 @@
             },
             onRelease(){
                 this.$router.push(`/release`);
+            },
+            goMy(){
+                const { loginname } = this.userState;
+                this.$router.push(`/user/${loginname}`);
             }
         }
     }

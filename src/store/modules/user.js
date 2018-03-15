@@ -8,7 +8,8 @@ export default {
     state:{
         userInfo:null,
         access_token:access_token,
-        isLogin:!!access_token
+        isLogin:!!access_token,
+        userSave:{}
     },
     mutations:{
         [types.login]( state , {data , access_token} ){
@@ -16,6 +17,14 @@ export default {
             state.isLogin = true;
             state.access_token = access_token;
             localStorage.setItem(tokenKey, access_token );
+            return state;
+        },
+        [types.getUserInfo](state,{ data , loginName }){
+            const userSave=state.userSave;
+            userSave[loginName]=data;
+            state.userSave={
+                ...userSave
+            };
             return state;
         }
     }

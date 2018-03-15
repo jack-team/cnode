@@ -1,3 +1,4 @@
 export default {
-    login:`user/login`
+    login:`user/login`,
+    getUserInfo:`user/info`
 }

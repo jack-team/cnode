@@ -11,5 +11,13 @@ export default  {
             });
             return data;
         });
+    },
+    [types.getUserInfo]({commit},loginName){
+        return ajax.get(`/user/${loginName}`).then(data=>{
+            commit(types.getUserInfo,{
+                data:data.data,
+                loginName:loginName
+            });
+        });
     }
 }

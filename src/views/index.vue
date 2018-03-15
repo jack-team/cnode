@@ -1,13 +1,13 @@
 <template>
     <div class="ms-page" v-has-header>
-        <ms-header :showLeft="false" :title="title">
+        <MsHeader :showLeft="false" :title="title">
             <button class="menu-icon" slot="left" @click="()=>this.leftSlider=true"></button>
-        </ms-header>
-        <tab-bar :tableLabel="tableLabel" :page="page" :onChange="pageChange">
-            <tabbar-item v-for="(tab,index) in tableLabel" :key="tab.name">
-                <center-content v-if="!!savePage[`page_${index}`]" :category="tab.category"></center-content>
-            </tabbar-item>
-        </tab-bar>
+        </MsHeader>
+        <TabBar :tableLabel="tableLabel" :page="page" :onChange="pageChange">
+            <TabbarItem v-for="(tab,index) in tableLabel" :key="tab.name">
+                <CenterContent v-if="!!savePage[`page_${index}`]" :category="tab.category"></CenterContent>
+            </TabbarItem>
+        </TabBar>
         <Modal :show="leftSlider" :opacity=".5" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease'">
             <Menu></Menu>
         </Modal>

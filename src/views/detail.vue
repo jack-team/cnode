@@ -1,15 +1,12 @@
 <template>
     <div class="ms-page" v-has-header>
-        <ms-header></ms-header>
-        <ScrollView :disabledRefresh="disabledRefresh" v-if="!!getDesc" :isToTop="isToTop">
+        <MsHeader :title="`详情`"></MsHeader>
+        <ScrollView :disabledRefresh="disabledRefresh" :onRefresh="onRefresh" v-if="!!getDesc" :isToTop="isToTop">
             <div class="desc">
                 <h3 class="top-title">{{getDesc.title}}</h3>
                 <div class="others">
                     <div class="left">
-                        <div
-                            class="avator"
-                            :style="{backgroundImage:`url(${getDesc.author.avatar_url})`}">
-                        </div>
+                        <div class="avator" :style="getBgStyle(getDesc)"></div>
                         <div class="user-desc">
                             <div>{{getDesc.author.loginname}}</div>
                             <div>发布于{{getTime(getDesc.create_at)}}</div>
@@ -33,10 +30,7 @@
                 <div class="comment-content" v-if="!!getDesc.replies.length">
                     <div v-for="comment in getDesc.replies" class="comment-list">
                         <div class="comment-user">
-                            <div
-                                class="user-avator"
-                                :style="{backgroundImage:`url(${comment.author.avatar_url})`}"
-                            ></div>
+                            <div class="user-avator" :style="getBgStyle(comment)"></div>
                             <div class="user-desc">
                                 <div>{{comment.author.loginname}}</div>
                                 <div>{{getTime(comment.create_at)}}</div>
@@ -47,13 +41,10 @@
                 </div>
             </div>
         </ScrollView>
-        <Modal
-            :show="modalShow"
-            :position="'bottom'"
-            :maskDuration="250"
-            :contentDuration="250"
-            :onClose="()=>this.modalShow=false"
-        >
+        <div class="loading-page" v-else>
+            <Loading></Loading>
+        </div>
+        <Modal :show="modalShow" :position="'bottom'" :onClose="()=>this.modalShow=false">
             <form class="comment-form" @submit.prevent="onSubmit">
                 <div class="input-wrapper">
                     <textarea
@@ -72,7 +63,7 @@
 </template>
 
 <script>
-    import { MsHeader , Modal ,MsButton} from './../components';
+    import { MsHeader , Modal ,MsButton , Loading } from './../components';
     import { mapActions , mapState } from 'vuex'
     import detailTypes from './../store/types/detail';
     const actions = mapActions({...detailTypes});
@@ -81,15 +72,16 @@
         components:{
             MsHeader,
             Modal,
-            MsButton
+            MsButton,
+            Loading
         },
         data(){
             return {
                 ...actions,
-                disabledRefresh:true,
                 isToTop:true,
+                commentText:``,
                 modalShow:false,
-                commentText:``
+                disabledRefresh:false,
             }
         },
         computed:{
@@ -115,9 +107,14 @@
         },
         methods:{
             getData(){
-                this.getDetail(this.getTopicId)
+                return this.getDetail(this.getTopicId)
             },
-            getTime:time=>diffTime(time),
+            onRefresh(cb){
+                this.getData().then(cb);
+            },
+            getTime:time=>{
+                return diffTime(time);
+            },
             findNodes(e){
                const target = e.target;
                if(target.nodeName === `IMG`) {
@@ -127,8 +124,12 @@
             showCommentModal(){
                 this.modalShow=!this.modalShow
             },
+            getBgStyle({author}){
+                const uri=`url(${author.avatar_url})`;
+                return { backgroundImage:uri }
+            },
             onSubmit(){
-                let { commentText ,userState } = this;
+                let { commentText, userState } = this;
                 commentText = commentText.trim();
                 if(!commentText){
                     return this.$PopUp.tip(`请输入评论`);
@@ -289,6 +290,15 @@
             background-color: transparent;
             color: #FF5655;
         }
+    }
+
+    .loading-page {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
 </style>

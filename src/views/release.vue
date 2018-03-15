@@ -1,15 +1,15 @@
 <template>
-    <div class="ms-page" v-has-header>
-        <ms-header :title="'发表主题'"></ms-header>
+    <div class="ms-page bg-white" v-has-header>
+        <MsHeader :title="'发表主题'"></MsHeader>
         <form class="sub-form" @submit.prevent="onSubmit">
             <input type="text" class="title" placeholder="请输入主题" v-model="title"/>
             <div class="content">
                 <textarea placeholder="请输入内容" v-textarea-auto v-model="content"></textarea>
             </div>
             <div class="select-box">
-                <ms-select :options="options" v-model="type" :title="'请选择发布类型'"></ms-select>
+                <MsSelect :options="options" v-model="type" :title="'请选择发布类型'"></MsSelect>
             </div>
-            <ms-button class="button">发布</ms-button>
+            <MsButton class="button">发布</MsButton>
         </form>
     </div>
 </template>
@@ -89,7 +89,6 @@
                 }).catch(()=>{
                     this.$PopUp.alert(`发布失败，请重新发布！`);
                 }).finally(loadingClose);
-
             }
         }
     }
@@ -98,7 +97,11 @@
 <style scoped lang="scss">
     .sub-form {
         display: block;
-        padding: 16px;
+        padding: 16px 10px;
+    }
+
+    .bg-white {
+        background-color: #fff;
     }
 
     .title {
@@ -107,7 +110,7 @@
         outline: none;
         border: 1px solid #ccc;
         background-color: #fff;
-        border-radius: 6px;
+        border-radius: 2px;
         padding: 0 10px;
         font-size: 14px;
         color: #555;
@@ -119,11 +122,11 @@
     .content {
         display: block;
         background-color: #fff;
-        margin-top: 10px;
+        margin-top: 16px;
         width: 100%;
         border: 1px solid #ccc;
         padding: 10px;
-        border-radius: 6px;
+        border-radius: 2px;
         textarea {
             display: block;
             width: 100%;
@@ -138,14 +141,14 @@
     }
 
     .select-box {
-        margin-top: 12px;
+        margin-top: 16px;
     }
 
     .button {
         height: 42px;
         width: 100%;
         border-radius: 6px;
-        margin-top: 20px;
+        margin-top: 30px;
         font-size: 16px;
     }
 </style>

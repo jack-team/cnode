@@ -77,7 +77,7 @@
         overflow: hidden;
         padding: 0 10px;
         background-color: #fff;
-        border-radius: 6px;
+        border-radius: 2px;
         position: relative;
         border: 1px solid #ccc;
         input {

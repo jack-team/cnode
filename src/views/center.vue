@@ -120,60 +120,49 @@
     $green:#1abc9c;
     $blue:#3498db;
     $yellow:#e67e22;
-
     .item {
         padding: 14px 12px;
-        margin-bottom: 10px;
+        margin: 10px 6px 0 6px;
         background-color: #fff;
-        border-top: 1px solid #ececec;
-        border-bottom: 1px solid #ececec;
-
-        &:first-child {
-            border-top: none;
-        }
+        border: 1px solid #ececec;
+        border-radius: 4px;
     }
-
     .author {
         display: flex;
         align-items: center;
         justify-content: space-between;
-
         .left {
             display: flex;
             align-items: center;
         }
-
         .right {
             font-size: 13px;
             color: #999;
         }
-
         .author-avator {
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
             background-color: #ececec;
         }
-
         .author-name {
             font-size: 14px;
             color: #666;
             margin-left: 10px;
         }
     }
-
     .desc {
         padding: 16px 0 0 0;
         .title {
             font-size: 15px;
             font-weight: 500;
-            line-height: 18px;
+            line-height: 20px;
             color: #545454;
+            text-align: justify;
         }
-
         .desc-icon {
             display: flex;
             .desc-item {
