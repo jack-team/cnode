@@ -21,4 +21,21 @@ export default class JR extends jRoll {
         return this;
     }
 
+    _endAction() {
+        const me = this;
+        if(!me.id) {
+            return false;
+        }
+        me._s.endX = me.x;
+        me._s.endY = me.y;
+        me.moving = false;
+
+        if (me.options.scrollBarFade && !me.fading) {
+            me.fading = true ;// 标记渐隐滚动条
+            if (me.scrollBarX) me._fade(me.scrollBarX, 2000);
+            if (me.scrollBarY) me._fade(me.scrollBarY, 2000);
+        }
+        me._execEvent('scrollEnd');
+    }
+
 }

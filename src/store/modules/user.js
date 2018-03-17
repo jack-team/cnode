@@ -31,6 +31,15 @@ export default {
         [types.getUserMessage](state,data ){
             state.message = data.data;
             return state;
+        },
+        [types.unLogin](state) {
+            localStorage.setItem(tokenKey,``);
+            state.userInfo=null;
+            state.access_token=null;
+            state.isLogin = false;
+            state.userSave={};
+            state.message={};
+            return state;
         }
     }
 }

@@ -29,5 +29,8 @@ export default  {
                 data:data.data
             })
         })
+    },
+    [types.unLogin]({ commit }){
+        commit(types.unLogin);
     }
 }

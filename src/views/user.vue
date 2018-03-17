@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <button slot="right" v-if="isme" class="login-out" @click="loginOut">退出登录</button>
+            <button slot="right" v-if="isme" class="login-out" @click="loginOut">退出</button>
         </MsHeader>
         <div class="container">
             <TabBar :tableLabel="tableLabel" :hasLine="true" :page="page" :onChange="pageChange">
@@ -43,7 +43,6 @@
     import {TabBar, TabbarItem} from './../components';
     import userTypes from './../store/types/user';
     import {mapState, mapActions} from 'vuex';
-
     const actions = mapActions({...userTypes});
     export default {
         name: "user",
@@ -78,7 +77,7 @@
                 return [recent_replies, recent_topics];
             },
             isme(){
-                const { loginname} = this.userState.userInfo;
+                const { loginname} = this.userState.userInfo || {};
                 return loginname === (this.user||{}).loginname;
             }
         },
@@ -92,7 +91,8 @@
             },
             loginOut(){
                 this.$PopUp.confirm(`提示`,`确定要退出登录吗？`,()=>{
-
+                    this.unLogin();
+                    this.$router.replace(`/`);
                 })
             }
         }
@@ -204,5 +204,6 @@
         background-color: transparent;
         color: #fff;
         padding: 0 10px;
+        font-size: 16px;
     }
 </style>
