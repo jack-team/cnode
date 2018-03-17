@@ -7,6 +7,7 @@ import Modal from './Modal/Modal';
 import MsButton from './Button/index';
 import Loading from './Loading/index';
 import MsSelect from './Select/index';
+import Login from './Login/index';
 
 export {
     MsHeader,
@@ -17,5 +18,6 @@ export {
     Modal,
     MsButton,
     Loading,
-    MsSelect
+    MsSelect,
+    Login
 }

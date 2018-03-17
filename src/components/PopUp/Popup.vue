@@ -11,10 +11,7 @@
             </div>
         </div>
         <div class="button-group">
-            <div v-for="btn in buttons" class="button" @click="()=>{
-                const { onClick = function() {}} = btn || {};
-                onClick()!== false && handelClick();
-            }">
+            <div v-for="btn in buttons" class="button" @click="btnClick(btn)">
                 {{btn.text}}
             </div>
         </div>
@@ -39,8 +36,13 @@
             },
             handelClick: {
                 type: Function,
-                default: () => {
-                }
+                default: () => {}
+            }
+        },
+        methods: {
+            btnClick(btn) {
+                const {onClick = () => null} = btn || {};
+                onClick() !== false && this.handelClick();
             }
         }
     }

@@ -1,2 +1,2 @@
-import ScrollView from './ScrollView';
+import ScrollView from './index.vue';
 export default ScrollView;

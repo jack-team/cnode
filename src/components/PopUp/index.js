@@ -37,7 +37,7 @@ class popup extends Manager {
     }
     alert ( msg  , cb ){
         this.dialog(`提示`,`${msg}`, [{
-            text:`确定`, onclick:cb
+            text:`确定`, onClick:cb
         }]);
         return this;
     }
@@ -45,10 +45,10 @@ class popup extends Manager {
         this.dialog(`${title}`, `${msg}`,
             [{
                 text:`取消`,
-                onclick:cancel
+                onClick:cancel
             },{
                 text:`确定`,
-                onclick:ok
+                onClick:ok
             }]
         );
         return this;

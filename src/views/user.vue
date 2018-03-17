@@ -1,24 +1,21 @@
 <template>
-    <div class="ms-page" v-has-header>
-        <MsHeader :title="'用户中心'"></MsHeader>
-        <div v-if="!!user" class="container">
-            <div class="user-top">
-                <div class="user-cover" v-if="!!user">
-                    <div class="user-avator" :style="{backgroundImage:`url(${user.avatar_url})`}"></div>
+    <div class="ms-page" v-has-header v-if="!!user">
+        <MsHeader :title="'用户中心'">
+            <div class="user-center" slot="bottom">
+                <div class="user-avator" :style="{backgroundImage:`url(${user.avatar_url})`}"></div>
+                <div class="center-right">
                     <p class="login-name">{{user.loginname}}</p>
-                </div>
-                <div class="create">
                     <div class="score">
-                        积分：{{user.score}}
-                    </div>
-                    <div class="create-time">
-                        注册于：{{getTime(user.create_at)}}
+                        积分：{{user.score}} | 注册于：{{getTime(user.create_at)}}
                     </div>
                 </div>
             </div>
+            <button slot="right" v-if="isme" class="login-out" @click="loginOut">退出登录</button>
+        </MsHeader>
+        <div class="container">
             <TabBar :tableLabel="tableLabel" :hasLine="true" :page="page" :onChange="pageChange">
                 <TabbarItem v-for="(items,index) in itemList" :key="index">
-                    <ScrollView :disabledRefresh="true">
+                    <ScrollView>
                         <ul class="item-container">
                             <li v-for="item in items" class="item" @click="jump(item)">
                                 <div class="avator" :style="{backgroundImage:`url(${item.author.avatar_url})`}"></div>
@@ -43,7 +40,7 @@
 </template>
 
 <script>
-    import {MsHeader, TabBar, TabbarItem} from './../components';
+    import {TabBar, TabbarItem} from './../components';
     import userTypes from './../store/types/user';
     import {mapState, mapActions} from 'vuex';
 
@@ -51,7 +48,6 @@
     export default {
         name: "user",
         components: {
-            MsHeader,
             TabBar,
             TabbarItem
         },
@@ -80,6 +76,10 @@
             itemList() {
                 const {recent_replies, recent_topics} = this.user;
                 return [recent_replies, recent_topics];
+            },
+            isme(){
+                const { loginname} = this.userState.userInfo;
+                return loginname === (this.user||{}).loginname;
             }
         },
         methods: {
@@ -89,6 +89,11 @@
             },
             jump(item){
                 this.$router.push(`/detail/${item.id}`);
+            },
+            loginOut(){
+                this.$PopUp.confirm(`提示`,`确定要退出登录吗？`,()=>{
+
+                })
             }
         }
     }
@@ -97,46 +102,21 @@
 <style scoped lang="scss">
     .container {
         height: 100%;
-        padding-top: 160px;
+        padding-top: 110px;
         position: relative;
     }
 
-    .user-top {
-        background: #fff;
-        position: absolute;
+    .user-center {
         width: 100%;
-        top: 0;
-        left: 0;
-    }
-
-    .user-cover {
-        height: 120px;
         display: flex;
-        justify-content: center;
+        height: 110px;
         align-items: center;
-        flex-direction: column;
-        position: relative;
-        overflow: hidden;
-        &:before {
-            content: '';
-            display: block;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 0;
-            position: absolute;
-            filter: blur(2px);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-image: url('http://static.yutao2012.com/ddd19220-2903-11e8-a48b-bb2c740d795b.jpg');
-        }
+        padding: 0 20px 14px 20px;
     }
 
     .user-avator {
-        width: 70px;
-        height: 70px;
+        width: 90px;
+        height: 90px;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -146,21 +126,27 @@
         background-color: #ccc;
     }
 
+    .center-right {
+        flex: 1;
+        color: #fff;
+        padding-left: 12px;
+        display: flex;
+        flex-direction: column;
+        font-size: 12px;
+    }
+
     .login-name {
         font-size: 16px;
         color: #fff;
-        margin-top: 8px;
-        position: relative;
-        z-index: 1;
+        font-weight: 500;
+        margin-bottom: 20px;
     }
 
-    .create {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 16px;
-        font-size: 14px;
-        color: #666;
+    .score {
+        margin-bottom: 4px;
     }
+
+
 
     .item-container {
         background: #fff;
@@ -210,5 +196,13 @@
             font-size: 12px;
         }
 
+    }
+
+    .login-out {
+        display: block;
+        height: 100%;
+        background-color: transparent;
+        color: #fff;
+        padding: 0 10px;
     }
 </style>

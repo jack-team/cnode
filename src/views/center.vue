@@ -1,5 +1,5 @@
 <template>
-    <ScrollView :onRefresh="onRefresh" @loadMore="loadMore" :onload="e=>this.scrollView=e" :onScroll="bindScroll">
+    <ScrollView @refresh="onRefresh" @loadMore="loadMore" :scrollToY="initScrollY" @scroll="bindScroll">
         <div v-for="(item , index) in getList" class="item" :key="index" @click="jumpToPage(item)">
             <div class="author">
                <div class="left">
@@ -24,9 +24,6 @@
                 </div>
             </div>
         </div>
-        <!--<div class="loading-container">-->
-            <!--<Loading></Loading>-->
-        <!--</div>-->
     </ScrollView>
 </template>
 
@@ -49,6 +46,7 @@
         data(){
             return {
                 ...actions,
+                initScrollY:0
             }
         },
         computed: {
@@ -69,9 +67,8 @@
 
         mounted(){
             this.init();
-            this.$nextTick(()=>{
-                this.scrollY = this.getPageY;
-                // this.scrollView.scrollTo(0,this.scrollY);
+            this.$nextTick(()=> {
+                this.initScrollY = this.getPageY || 0;
             });
         },
 
@@ -108,7 +105,7 @@
                 this.$router.push(`/detail/${id}`);
             },
             bindScroll({y}){
-               this.scrollY=y;
+               this.scrollY = y;
             },
             getTime:time=>diffTime(time)
         }
@@ -121,11 +118,18 @@
     $blue:#3498db;
     $yellow:#e67e22;
     .item {
-        padding: 14px 12px;
-        margin: 10px 6px 0 6px;
+        padding: 12px 16px;
         background-color: #fff;
-        border: 1px solid #ececec;
-        border-radius: 4px;
+        margin-bottom: 10px;
+        border-top: 1px solid #ececec;
+        border-bottom: 1px solid #ececec;
+        &:first-child {
+            border-top: none;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
     .author {
         display: flex;
@@ -160,7 +164,7 @@
             font-size: 15px;
             font-weight: 500;
             line-height: 20px;
-            color: #545454;
+            color: #333;
             text-align: justify;
         }
         .desc-icon {

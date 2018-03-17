@@ -17,6 +17,9 @@
                 <slot name="right"></slot>
             </div>
         </div>
+        <div class="bottom">
+            <slot name="bottom"></slot>
+        </div>
     </div>
 </template>
 
@@ -53,7 +56,7 @@
 
     .ms-header {
         width: 100%;
-        height: 44px;
+        min-height: 44px;
         position: absolute;
         top: 0;
         left: 0;
@@ -62,7 +65,8 @@
 
         .ms-header-container {
             width: 100%;
-            height: 100%;
+            height: 44px;
+            position: relative;
         }
 
         .ms-header-left ,.ms-header-right{
@@ -128,6 +132,10 @@
             color: #fff;
             line-height: 34px;
             font-weight: 500;
+        }
+
+        .bottom {
+            width: 100%;
         }
 
     }

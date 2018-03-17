@@ -1,15 +1,14 @@
 <template>
     <div class="login-page" v-has-header>
-        <ms-header :goBack="goBack" :close="true" :title="'登录'"></ms-header>
+        <MsHeader :goBack="goBack" :close="true" :title="'登录'"></MsHeader>
         <form class="login-form" @submit.prevent="onSubmit">
             <input type="text" class="login-input" v-model="token" placeholder="请输入Access Token">
-            <ms-button class="login-btn">登录</ms-button>
+            <MsButton class="login-btn">登录</MsButton>
         </form>
     </div>
 </template>
 
 <script>
-    import { MsHeader, MsButton } from '../../components';
     import { mapActions , mapState } from 'vuex'
     import userTypes from './../../store/types/user';
     const  actions = mapActions({...userTypes});
@@ -24,10 +23,6 @@
                 type:Function,
                 default:()=>{}
             }
-        },
-        components: {
-            MsHeader,
-            MsButton
         },
         data() {
             return {
@@ -45,7 +40,8 @@
                 this.$$modal.show = false;
             },
             onSubmit(e) {
-                const { token } = this;
+                let { token } = this;
+                token = token.trim();
                 if (!token) return this.$PopUp.tip(`请输入Access Token...`);
                 this.login(token).then( data => {
                     this.success(this.goBack.bind(this),data);

@@ -40,7 +40,9 @@ const routers = [
         path:'/message',
         name:'message',
         component:()=>import('../views/message.vue'),
-        shouldLogin:true
+        meta:{
+            shouldLogin:true
+        }
     },
     {
         path:'*',

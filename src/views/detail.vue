@@ -1,49 +1,48 @@
 <template>
     <div class="ms-page" v-has-header>
         <MsHeader :title="`详情`"></MsHeader>
-        <ScrollView :disabledRefresh="disabledRefresh" :onRefresh="onRefresh" v-if="!!getDesc" :isToTop="isToTop">
-            <div class="desc">
-                <h3 class="top-title">{{getDesc.title}}</h3>
-                <div class="others">
-                    <div class="left">
-                        <div class="avator" :style="getBgStyle(getDesc)"></div>
-                        <div class="user-desc">
-                            <div>{{getDesc.author.loginname}}</div>
-                            <div>发布于{{getTime(getDesc.create_at)}}</div>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <span>{{getDesc.visit_count}}次浏览</span>
-                    </div>
-                </div>
-            </div>
-            <div class="detail" v-html="getDesc.content" @click="findNodes"></div>
-            <div class="comment-container">
-                <div class="comment-header">
-                    <div class="comment-num">
-                        共{{getDesc.reply_count}}条回复
-                    </div>
-                    <ms-button class="comment-btn" @click="showCommentModal">
-                        点击评论
-                    </ms-button>
-                </div>
-                <div class="comment-content" v-if="!!getDesc.replies.length">
-                    <div v-for="comment in getDesc.replies" class="comment-list">
-                        <div class="comment-user">
-                            <div class="user-avator" :style="getBgStyle(comment)"></div>
+        <ScrollView>
+            <div v-if="!!getDesc">
+                <div class="desc">
+                    <h3 class="top-title">{{getDesc.title}}</h3>
+                    <div class="others">
+                        <div class="left">
+                            <div class="avator" :style="getBgStyle(getDesc)"></div>
                             <div class="user-desc">
-                                <div>{{comment.author.loginname}}</div>
-                                <div>{{getTime(comment.create_at)}}</div>
+                                <div>{{getDesc.author.loginname}}</div>
+                                <div>发布于{{getTime(getDesc.create_at)}}</div>
                             </div>
                         </div>
-                        <div v-html="comment.content"></div>
+                        <div class="right">
+                            <span>{{getDesc.visit_count}}次浏览</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail" v-html="getDesc.content" @click="findNodes"></div>
+                <div class="comment-container">
+                    <div class="comment-header">
+                        <div class="comment-num">
+                            共{{getDesc.reply_count}}条回复
+                        </div>
+                        <ms-button class="comment-btn" @click="showCommentModal">
+                            点击评论
+                        </ms-button>
+                    </div>
+                    <div class="comment-content" v-if="!!getDesc.replies.length">
+                        <div v-for="comment in getDesc.replies" class="comment-list">
+                            <div class="comment-user">
+                                <div class="user-avator" :style="getBgStyle(comment)"></div>
+                                <div class="user-desc">
+                                    <div>{{comment.author.loginname}}</div>
+                                    <div>{{getTime(comment.create_at)}}</div>
+                                </div>
+                            </div>
+                            <div v-html="comment.content"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </ScrollView>
-        <div class="loading-page" v-else>
-            <Loading></Loading>
-        </div>
         <Modal :show="modalShow" :position="'bottom'" :onClose="()=>this.modalShow=false">
             <form class="comment-form" @submit.prevent="onSubmit">
                 <div class="input-wrapper">
@@ -63,7 +62,7 @@
 </template>
 
 <script>
-    import { MsHeader , Modal ,MsButton , Loading } from './../components';
+    import { MsHeader , Modal ,MsButton } from './../components';
     import { mapActions , mapState } from 'vuex'
     import detailTypes from './../store/types/detail';
     const actions = mapActions({...detailTypes});
@@ -72,8 +71,7 @@
         components:{
             MsHeader,
             Modal,
-            MsButton,
-            Loading
+            MsButton
         },
         data(){
             return {
@@ -291,14 +289,4 @@
             color: #FF5655;
         }
     }
-
-    .loading-page {
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
 </style>
