@@ -43,6 +43,10 @@
             onChange:{
                 type:Function,
                 default:()=>{}
+            },
+            hasLine:{
+                type:Boolean,
+                default:false
             }
         },
         data(){
@@ -82,7 +86,8 @@
             },
             tabActive( index ) {
                 return {
-                    active:this.page===index
+                    active:this.page===index,
+                    [`no-line`]:!this.hasLine
                 }
             }
         },
@@ -118,8 +123,17 @@
             bottom: 0;
             left: 0;
             height: 2px;
-            background-color: #FF5655;
+
             transition: all .3s cubic-bezier(0.23, 1, 0.32, 1);
+
+            &:before {
+                content: "";
+                display: block;
+                height: 100%;
+                width: 70%;
+                margin: auto;
+                background-color: #FF5655;
+            }
         }
 
         .ms-tabbar-tab {
@@ -130,6 +144,28 @@
             flex-direction: column;
             font-size: 14px;
             color:#888;
+            position: relative;
+
+            &:after {
+                content: '';
+                height: 60%;
+                position: absolute;
+                right: 0;
+                display: block;
+                width: 1px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                background: #ccc;
+            }
+
+            &:last-child {
+                &:after{
+                    width: 0;
+                }
+            }
+
+
 
             .icon {
                 width: 24px;
@@ -143,6 +179,12 @@
 
             .label-text {
                 display: block;
+            }
+
+            &.no-line{
+                &:after{
+                    width: 0;
+                }
             }
         }
 
@@ -168,14 +210,14 @@
             width: 100%;
             height: 100%;
             position: relative;
-            overflow: hidden;
+            /*overflow: hidden;*/
 
         }
 
         .content-ani {
             height: 100%;
             position: relative;
-            transition: all .3s cubic-bezier(0.23, 1, 0.32, 1);
+            /*transition: all .3s cubic-bezier(0.23, 1, 0.32, 1);*/
         }
     }
 

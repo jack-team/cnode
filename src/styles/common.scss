@@ -13,3 +13,18 @@
 .ms-has-footer {
    padding-bottom: 48px;
 }
+
+
+.text-line-1 {
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   -webkit-line-clamp: 1;
+}
+
+
+.bg-common {
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: cover;
+}

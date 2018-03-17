@@ -9,7 +9,8 @@ export default {
         userInfo:null,
         access_token:access_token,
         isLogin:!!access_token,
-        userSave:{}
+        userSave:{},
+        message:{}
     },
     mutations:{
         [types.login]( state , {data , access_token} ){
@@ -25,6 +26,10 @@ export default {
             state.userSave={
                 ...userSave
             };
+            return state;
+        },
+        [types.getUserMessage](state,data ){
+            state.message = data.data;
             return state;
         }
     }

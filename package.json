@@ -19,6 +19,7 @@
   "dependencies": {
     "autosize": "^4.0.0",
     "axios": "^0.18.0",
+    "better-scroll": "^1.8.4",
     "fastclick": "^1.0.6",
     "iscroll": "^5.2.0",
     "jroll": "^2.6.0",

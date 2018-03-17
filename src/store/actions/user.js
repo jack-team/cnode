@@ -19,5 +19,15 @@ export default  {
                 loginName:loginName
             });
         });
+    },
+    [types.getUserMessage]({commit},token){
+        return ajax.get(`/messages`,{
+            accesstoken:token,
+            mdrender:true
+        }).then(data => {
+            commit(types.getUserMessage,{
+                data:data.data
+            })
+        })
     }
 }

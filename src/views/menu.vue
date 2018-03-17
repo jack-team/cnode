@@ -10,7 +10,7 @@
         </div>
         <ul class="other-items">
             <li class="item" @click="onRelease">发表</li>
-            <li class="item">消息</li>
+            <li class="item" @click="onMessage">消息</li>
             <li class="item">发表</li>
         </ul>
     </div>
@@ -36,6 +36,9 @@
             goMy(){
                 const { loginname } = this.userState;
                 this.$router.push(`/user/${loginname}`);
+            },
+            onMessage(){
+                this.$router.push(`/message`);
             }
         }
     }

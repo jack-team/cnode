@@ -1,5 +1,5 @@
 <template>
-    <ScrollView :onRefresh="onRefresh" :onEndReached="loadMore" :onload="e=>this.scrollView=e" :onScroll="bindScroll">
+    <ScrollView :onRefresh="onRefresh" @loadMore="loadMore" :onload="e=>this.scrollView=e" :onScroll="bindScroll">
         <div v-for="(item , index) in getList" class="item" :key="index" @click="jumpToPage(item)">
             <div class="author">
                <div class="left">
@@ -24,9 +24,9 @@
                 </div>
             </div>
         </div>
-        <div class="loading-container">
-            <Loading></Loading>
-        </div>
+        <!--<div class="loading-container">-->
+            <!--<Loading></Loading>-->
+        <!--</div>-->
     </ScrollView>
 </template>
 
@@ -71,7 +71,7 @@
             this.init();
             this.$nextTick(()=>{
                 this.scrollY = this.getPageY;
-                this.scrollView.scrollTo(0,this.scrollY);
+                // this.scrollView.scrollTo(0,this.scrollY);
             });
         },
 
@@ -90,8 +90,8 @@
             onRefresh(cb){
                 this.loadData(`refresh`,cb);
             },
-            loadMore(){
-                this.loadData(`loadMore`);
+            loadMore(fn){
+                this.loadData(`loadMore`,fn);
             },
             loadData(type=`refresh`,cb=()=>{}){
                 let { page = 0 } = this.home[this.category];

@@ -15,15 +15,9 @@ const routers = [
         redirect:'/topic/good'
     },
     {
-        path: '/topic',
+        path: '/topic/:category',
         name:'topic',
-        redirect:'/topic/good',
-        component:Tpl,
-        children:[{
-            path:':category',
-            name:'category',
-            component:()=>import('../views/index.vue')
-        }]
+        component:()=>import('../views/index.vue')
     },
     {
         path:'/detail/:id',
@@ -41,6 +35,16 @@ const routers = [
         name:'user',
         component:()=>import('../views/user.vue'),
         shouldLogin:true
+    },
+    {
+        path:'/message',
+        name:'message',
+        component:()=>import('../views/message.vue'),
+        shouldLogin:true
+    },
+    {
+        path:'*',
+        redirect:'/topic/good'
     }
 ];
 
