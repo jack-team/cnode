@@ -35,10 +35,15 @@ const prodConfig = {
             filename:"asset.json",
             processOutput:function ( assets ) {
                 const { common , app } = assets;
-                const assetsMap = {
-                    css:[common.css,app.css],
-                    js:[common.js,app.js]
-                };
+                let css=[common.css],
+                    js =[common.js];
+                if(!!app.css) {
+                    css.push(app.css)
+                }
+                if(!!app.js) {
+                    js.push(app.js);
+                }
+                const assetsMap = { css:css, js:js };
                 return JSON.stringify(assetsMap);
             }
         }),
