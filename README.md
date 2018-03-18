@@ -1,7 +1,8 @@
-1.本地先配置cnpm http://npm.taobao.org/
+**项目跑起来很简单的**
 
-2.项目根目录下执行 cnpm install
+第一步 ：如果你本地还没有安装cnpm的话，先执行一发 npm install -g cnpm --registry=https://registry.npm.taobao.org 安装cnpm
 
-3.dev 环境执行 npm start
+第二步：在项目根目录下执行 cnpm install  先把依赖包拉下来
 
-4. 打包 npm build
+第三步：等依赖包下载完以后 ，执行 npm start ，非常好，项目成功的跑起来了。
+
