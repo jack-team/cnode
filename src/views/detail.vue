@@ -128,10 +128,24 @@
             },
             onSubmit(){
                 let { commentText, userState } = this;
-                commentText = commentText.trim();
+                commentText = trim(commentText);
                 if(!commentText){
                     return this.$PopUp.tip(`请输入评论`);
                 }
+
+                const isLogin = getUserLogin();
+
+                if(!isLogin) {
+                    return this.$openLogin(cb=>{
+                        cb();
+                        this.commenting();
+
+                    });
+                }
+                this.commenting();
+            },
+            commenting(){
+                let { commentText, userState } = this;
                 const { access_token } = userState;
                 loading(`发送中...`);
                 this.$http.post(`/topic/${this.getTopicId}/replies`,{

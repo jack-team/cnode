@@ -41,7 +41,7 @@
             },
             onSubmit(e) {
                 let { token } = this;
-                token = token.trim();
+                token = trim(token);
                 if (!token) return this.$PopUp.tip(`请输入Access Token...`);
                 this.login(token).then( data => {
                     this.success(this.goBack.bind(this),data);

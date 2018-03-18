@@ -4,10 +4,16 @@ export default {
     [types.getDetail]({commit},id){
         ajax.get(`/topic/${id}`,{
             mdrender:true
-        }).then(data => {
+        }).then(res => {
+           let { replies } = res.data;
+           replies.reverse();
+           const data={
+               ...res.data,
+               replies
+           };
            commit(types.getDetail,{
                id:id,
-               data:data.data
+               data:data
            })
         })
     }

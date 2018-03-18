@@ -49,9 +49,9 @@
 
                 let errMsg = null;
 
-                title=title.trim();
+                title=trim(title);
 
-                content=content.trim();
+                content=trim(content);
 
                 if(!title) {
                     errMsg=`请输入标题！`;
@@ -73,10 +73,20 @@
                     return this.$PopUp.tip(errMsg);
                 }
 
+                const isLogin = getUserLogin();
+
+                if(!isLogin) {
+                   return this.$openLogin(cb=>{
+                       cb();
+                       this.release();
+                   });
+                }
+                this.release();
+            },
+            release(  ){
+                loading(`发布中...`);
+                let { title , content , type , userState } = this;
                 const { access_token } = userState;
-
-                loading();
-
                 this.$http.post("/topics",{
                     title:title,
                     tab:type,
