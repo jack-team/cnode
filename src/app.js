@@ -52,7 +52,7 @@ Vue.prototype.$openLogin = $openLogin;
 Vue.prototype.$PopUp = $PopUp;
 
 // 开启debug模式
-Vue.config.debug = true;
+Vue.config.debug = __DEV__;
 
 
 //全局通用loading
