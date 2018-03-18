@@ -46,8 +46,8 @@
                 const modal = this.$PopUp.show(Option,{
                     position:`bottom`,
                     opacity:.6,
-                    maskDuration:200,
-                    contentDuration:200,
+                    maskDuration:300,
+                    contentDuration:300,
                 },{
                     options:options,
                     title:title,
