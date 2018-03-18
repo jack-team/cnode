@@ -10,7 +10,7 @@
         </div>
         <ul class="other-items">
             <li class="item" @click="onRelease">发表</li>
-            <li class="item" @click="onMessage">消息</li>
+            <li class="item message" @click="onMessage">消息</li>
         </ul>
     </div>
 </template>
@@ -53,8 +53,9 @@
         display: flex;
         align-items: center;
         border-bottom: 1px solid #ececec;
-        padding: 10px 0;
+        padding: 20px 0;
         position: relative;
+        font-size: 18px;
     }
     .me-info {
         &:after {
@@ -103,16 +104,13 @@
     }
     .other-items {
         .item {
-            height: 48px;
+            height: 40px;
             border-bottom: 1px solid #ececec;
             position: relative;
-            line-height: 48px;
+            line-height: 40px;
             padding-left: 40px;
-            font-size: 16px;
+            font-size: 14px;
             color: #545454;
-            &:last-child{
-                border-bottom: none;
-            }
             &:before,&:after {
                 content: '';
                 display: block;
@@ -136,6 +134,14 @@
                 right: 0;
                 background-image: url("./../image/arrow_right.png");
             }
+        }
+
+        .message {
+           &:before {
+               background-image: url("./../image/message_icon.png");
+               width: 22px;
+               height: 22px;
+           }
         }
     }
 </style>

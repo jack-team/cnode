@@ -45,7 +45,7 @@
         },
         methods:{
             onSubmit(){
-                let { title , content , type , userState } = this;
+                let { title , content } = this;
 
                 let errMsg = null;
 

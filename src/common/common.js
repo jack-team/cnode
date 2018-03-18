@@ -56,4 +56,7 @@ Date.prototype.pattern=function(fmt) {
     return fmt;
 };
 
-window.trim=str=>(str.replace(/(^\s*)|(\s*$)/g,""));
+window.trim=str=>{
+    str=str||``;
+    return str.replace(/(^\s*)|(\s*$)/g,``);
+};
