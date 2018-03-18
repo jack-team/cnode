@@ -2,6 +2,7 @@
  * Created by jiangtao on 16/7/5.
  */
 
+const path = require('path');
 const webpack = require('webpack');
 
 const AssetsPlugin = require('assets-webpack-plugin');
@@ -12,6 +13,7 @@ const baseConfig = require('./base.config');
 
 const prodConfig = {
     plugins:[
+        new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(true),
         //js压缩参数
         new webpack.optimize.UglifyJsPlugin({
@@ -47,11 +49,13 @@ const prodConfig = {
                 return JSON.stringify(assetsMap);
             }
         }),
-        new CleanWebpackPlugin("../dist", {
-            root: __dirname,       　　　　　　　　　　
-            verbose: true,        　　　　　　　　　
-            dry:false
-        })
+        new CleanWebpackPlugin(['dist'],　 //匹配删除的文件
+            {
+                root: path.resolve(__dirname,'../'),//根目录
+                verbose: true,//开启在控制台输出信息
+                dry: false//启用删除文件
+            }
+        )
     ]
 };
 
