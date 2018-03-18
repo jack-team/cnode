@@ -1,7 +1,7 @@
 <template>
     <div class="ms-page" v-has-header>
         <MsHeader :title="`详情`"></MsHeader>
-        <ScrollView>
+        <ScrollView :useRefresh="true" @refresh="getData">
             <div v-if="!!getDesc">
                 <div class="desc">
                     <h3 class="top-title">{{getDesc.title}}</h3>
@@ -104,8 +104,8 @@
             this.getData();
         },
         methods:{
-            getData(){
-                return this.getDetail(this.getTopicId)
+            getData(cb=()=>{}){
+                return this.getDetail(this.getTopicId).then(cb)
             },
             onRefresh(cb){
                 this.getData().then(cb);

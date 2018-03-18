@@ -1,5 +1,5 @@
 <template>
-    <ScrollView @refresh="onRefresh" @loadMore="loadMore" :scrollToY="initScrollY" @scroll="bindScroll">
+    <ScrollView @refresh="onRefresh" @loadMore="loadMore" :userLoadMore="true" :useRefresh="true" :scrollToY="initScrollY" @scroll="bindScroll">
         <div v-for="(item , index) in getList" class="item" :key="index" @click="jumpToPage(item)">
             <div class="author">
                <div class="left">
