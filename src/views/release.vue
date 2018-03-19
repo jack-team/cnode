@@ -109,11 +109,9 @@
         display: block;
         padding: 16px 10px;
     }
-
     .bg-white {
         background-color: #fff;
     }
-
     .title {
         height: 40px;
         width: 100%;
@@ -128,7 +126,6 @@
             border-color: #FF7A4C;
         }
     }
-
     .content {
         display: block;
         background-color: #fff;
@@ -149,11 +146,9 @@
             color: #555;
         }
     }
-
     .select-box {
         margin-top: 16px;
     }
-
     .button {
         height: 42px;
         width: 100%;

@@ -3,11 +3,16 @@
         <MsHeader :title="`消息`"></MsHeader>
         <TabBar :tableLabel="tableLabel" :page="page" :hasLine="true" :onChange="pageChange">
             <TabbarItem v-for="(message,index) in messages" :key="index">
-                <ScrollView v-if="!!message.length">
-                    <ul class="items-container">
+                <ScrollView>
+                    <ul class="items-container" v-if="!!message.length">
                         <li v-for="item in message">
                             <div class="user-info">
-                                <div class="avator bg-common" :style="{backgroundImage:`url(${item.author.avatar_url})`}"></div>
+                                <div
+                                    class="avator bg-common"
+                                    :style="{backgroundImage:`url(${item.author.avatar_url})`}"
+                                    @click="goUser(item)"
+                                >
+                                </div>
                                 <div class="user-desc">
                                     <div class="name">{{item.author.loginname}}回复了你</div>
                                     <div>{{getTime(item.create_at)}}</div>
@@ -16,11 +21,11 @@
                             <div class="content" v-html="item.reply.content"></div>
                         </li>
                     </ul>
+                    
                 </ScrollView>
             </TabbarItem>
         </TabBar>
     </div>
-    
 </template>
 
 <script>
@@ -74,7 +79,11 @@
             pageChange( page ){
                 this.page = page;
             },
-            getTime:time=>diffTime(time)
+            getTime:time=>diffTime(time),
+            goUser(item){
+                const { loginname } = item.author;
+                this.$router.push(`/user/${loginname}`);
+            }
         }
     }
 </script>

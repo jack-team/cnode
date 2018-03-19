@@ -73,15 +73,15 @@
             background-image: url("./../image/arrow_right.png");
         }
         .me-avator {
-           width:30px;
-           height:30px;
-           border-radius: 15px;
+           width:40px;
+           height:40px;
+           border-radius: 20px;
            background-size: cover;
            background-repeat: no-repeat;
            background-position: center;
         }
         .me-name {
-           font-size: 14px;
+           font-size: 16px;
            color: #555;
            margin-left: 10px;
         }
