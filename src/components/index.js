@@ -8,6 +8,7 @@ import MsButton from './Button/index';
 import Loading from './Loading/index';
 import MsSelect from './Select/index';
 import Login from './Login/index';
+import Empty from './Empty';
 
 export {
     MsHeader,
@@ -19,5 +20,6 @@ export {
     MsButton,
     Loading,
     MsSelect,
-    Login
+    Login,
+    Empty
 }

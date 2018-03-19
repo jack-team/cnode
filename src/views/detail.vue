@@ -31,7 +31,7 @@
                     <div class="comment-content" v-if="!!getDesc.replies.length">
                         <div v-for="comment in getDesc.replies" class="comment-list">
                             <div class="comment-user">
-                                <div class="user-avator" :style="getBgStyle(comment)"></div>
+                                <div class="user-avator" :style="getBgStyle(comment)" @click="goUser(comment)"></div>
                                 <div class="user-desc">
                                     <div>{{comment.author.loginname}}</div>
                                     <div>{{getTime(comment.create_at)}}</div>
@@ -157,6 +157,10 @@
                     this.commentText=``;
                     this.showCommentModal();
                 }).finally(loadingClose);
+            },
+            goUser(item){
+                const {loginname}=item.author;
+                this.$router.push(`/user/${loginname}`);
             }
         }
     }

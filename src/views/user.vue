@@ -16,7 +16,7 @@
             <TabBar :tableLabel="tableLabel" :hasLine="true" :page="page" :onChange="pageChange">
                 <TabbarItem v-for="(items,index) in itemList" :key="index">
                     <ScrollView>
-                        <ul class="item-container">
+                        <ul class="item-container" v-if="!!items.length">
                             <li v-for="item in items" class="item" @click="jump(item)">
                                 <div class="avator" :style="{backgroundImage:`url(${item.author.avatar_url})`}"></div>
                                 <div class="right-desc">
@@ -32,6 +32,9 @@
                                 </div>
                             </li>
                         </ul>
+                        <div class="empty-box" v-else>
+                            <Empty></Empty>
+                        </div>
                     </ScrollView>
                 </TabbarItem>
             </TabBar>
@@ -40,7 +43,7 @@
 </template>
 
 <script>
-    import {TabBar, TabbarItem} from './../components';
+    import {TabBar, TabbarItem,Empty} from './../components';
     import userTypes from './../store/types/user';
     import {mapState, mapActions} from 'vuex';
     const actions = mapActions({...userTypes});
@@ -48,7 +51,8 @@
         name: "user",
         components: {
             TabBar,
-            TabbarItem
+            TabbarItem,
+            Empty
         },
         data() {
             return {

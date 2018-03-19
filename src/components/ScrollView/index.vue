@@ -32,7 +32,7 @@
             //到底部多少像素执行onEndReached
             onEndReachedThreshold: {
                 type: Number,
-                default: 500
+                default: 600
             },
             //启用上滑加载更多
             userLoadMore: {

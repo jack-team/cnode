@@ -4,7 +4,10 @@
         <TabBar :tableLabel="tableLabel" :page="page" :hasLine="true" :onChange="pageChange">
             <TabbarItem v-for="(message,index) in messages" :key="index">
                 <ScrollView>
-                    <ul class="items-container" v-if="!!message.length">
+                    <div v-if="isLoaded &&!message.length" class="empty-box">
+                        <Empty></Empty>
+                    </div>
+                    <ul class="items-container" v-if="!!message.length && isLoaded">
                         <li v-for="item in message">
                             <div class="user-info">
                                 <div
@@ -21,7 +24,6 @@
                             <div class="content" v-html="item.reply.content"></div>
                         </li>
                     </ul>
-                    
                 </ScrollView>
             </TabbarItem>
         </TabBar>
@@ -33,7 +35,8 @@
         MsHeader,
         TabBar,
         TabbarItem,
-        ScrollView
+        ScrollView,
+        Empty
     } from './../components'
 
     import { mapState , mapActions } from 'vuex';
@@ -46,11 +49,14 @@
             MsHeader,
             TabBar,
             TabbarItem,
-            ScrollView
+            ScrollView,
+            Empty
         },
         mounted(){
             const { access_token } = this.userState;
-            this.getUserMessage(access_token);
+            this.getUserMessage(access_token).finally(()=>{
+                this.isLoaded = true;
+            });
         },
         data(){
             return {
@@ -59,7 +65,8 @@
                 tableLabel:[
                     {name:`已读消息`},
                     {name:`未读消息`}
-                ]
+                ],
+                isLoaded:false
             }
         },
         computed:{
