@@ -6,7 +6,7 @@ export default  {
        return ajax.get('/topics',{
            limit:30,
            tab:category,
-           page:1
+           page:page
        }).then(data=>{
            commit(types.getTopicList,{
                list:data.data,

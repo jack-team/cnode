@@ -104,7 +104,7 @@
             jumpToPage({id}){
                 this.$router.push(`/detail/${id}`);
             },
-            bindScroll({y}){
+            bindScroll({ y }){
                this.scrollY = y;
             },
             getTime:time=>diffTime(time)
