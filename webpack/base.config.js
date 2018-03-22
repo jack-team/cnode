@@ -23,6 +23,7 @@ const baseConfig =  {
             'vue',
             'vue-router',
             'vuex',
+            'babel-polyfill',
              path.resolve(__dirname,'../src/common/common.js')
         ],
         app:path.resolve(__dirname,'../src/app.js')
