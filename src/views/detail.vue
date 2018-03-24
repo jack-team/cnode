@@ -101,7 +101,9 @@
             }
         },
         mounted(){
-            this.getData();
+            setTimeout(()=>{
+                this.getData();
+            },500);
         },
         methods:{
             getData(cb=()=>{}){
