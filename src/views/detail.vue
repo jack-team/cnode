@@ -101,10 +101,15 @@
             }
         },
         mounted(){
-            setTimeout(()=>{
+            this.networker=setTimeout(()=>{
                 this.getData();
             },500);
         },
+
+        beforeDestroy(){
+            this.networker&&clearTimeout(this.networker);
+        },
+
         methods:{
             getData(cb=()=>{}){
                 return this.getDetail(this.getTopicId).then(cb)
