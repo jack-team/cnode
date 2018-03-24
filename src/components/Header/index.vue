@@ -26,27 +26,27 @@
 <script>
     export default {
         name: "ms-header",
-        props:{
-            title:{
-                type:String,
-                default:`标题`
+        props: {
+            title: {
+                type: String,
+                default: `标题`
             },
-            showLeft:{
-                type:Boolean,
-                default:true
+            showLeft: {
+                type: Boolean,
+                default: true
             },
-            goBack:{
-                type:Function,
-                default:cb=>cb()
+            goBack: {
+                type: Function,
+                default: cb => cb()
             },
-            close:{
-                type:Boolean,
-                default:false
+            close: {
+                type: Boolean,
+                default: false
             }
         },
-        methods:{
-            _goBack(){
-                this.goBack(()=>this.$router.back())
+        methods: {
+            _goBack() {
+                this.goBack(() => this.$router.back())
             }
         }
     }
@@ -69,9 +69,9 @@
             position: relative;
         }
 
-        .ms-header-left ,.ms-header-right{
+        .ms-header-left, .ms-header-right {
             position: absolute;
-            top:0;
+            top: 0;
             padding: 5px 0;
             height: 100%;
             z-index: 1;
@@ -109,7 +109,7 @@
             background-size: 66% auto;
         }
 
-        .icon-close{
+        .icon-close {
             background-image: url('close_icon@2x.png');
             background-size: 60% auto;
             margin-left: 5px;
@@ -119,7 +119,7 @@
             position: absolute;
             left: 0;
             right: 0;
-            top:0;
+            top: 0;
             bottom: 0;
             margin: 5px 10px;
 
