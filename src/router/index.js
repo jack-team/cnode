@@ -7,7 +7,7 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-import Tpl from './../components/Tpl';
+import LazyLoad from './../LazyLoad';
 
 const routers = [
     {
@@ -49,6 +49,13 @@ const routers = [
         redirect:'/topic/good'
     }
 ];
+
+routers.forEach( route => {
+    const { component } = route;
+    if(component) {
+        route.component=LazyLoad(component);
+    }
+});
 
 export default new VueRouter({
     history: true,

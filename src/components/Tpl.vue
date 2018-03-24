@@ -1,10 +1,13 @@
 <template>
-    <router-view></router-view>
+   <div>1111</div>
 </template>
 
 <script>
     export default {
-        name: "tpl"
+        name: "tpl",
+        mounted(){
+            console.log(this.loaded)
+        }
     }
 </script>
 
