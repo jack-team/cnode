@@ -9,7 +9,7 @@
             </TabbarItem>
         </TabBar>
         <Modal :show="leftSlider" :opacity=".5" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease'">
-            <Menu></Menu>
+            <Menu @click="()=>this.leftSlider=false"></Menu>
         </Modal>
     </div>
 </template>

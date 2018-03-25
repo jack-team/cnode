@@ -23,6 +23,12 @@
                 userState: state => state.user.userInfo
             })
         },
+        created(){
+            this.timeOut=[];
+        },
+        beforeDestroy(){
+            this.timeOut.forEach(t=>clearTimeout(t));
+        },
         methods:{
             goLogin(){
                 const modal = this.$openLogin(()=> {
@@ -30,14 +36,32 @@
                 });
             },
             onRelease(){
-                this.$router.push(`/release`);
+                this.$emit(`click`);
+                this.timeOut.push(
+                    setTimeout(()=>{
+                        this.$router.push(`/release`);
+                    },350)
+                )
             },
             goMy(){
                 const { loginname } = this.userState;
-                this.$router.push(`/user/${loginname}`);
+                this.$emit(`click`);
+                this.timeOut.push(
+                    setTimeout(() => {
+                        this.$router.push(`/user/${loginname}`);
+                    },350)
+                )
             },
             onMessage(){
-                this.$router.push(`/message`);
+                const isLogin = getUserLogin();
+                this.timeOut.push(
+                    setTimeout(()=> {
+                        this.$router.push(`/message`);
+                    },isLogin ? 350 :0 )
+                )
+                if(isLogin) {
+                    this.$emit(`click`);
+                }
             }
         }
     }
