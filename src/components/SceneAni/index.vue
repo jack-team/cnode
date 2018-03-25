@@ -9,40 +9,47 @@
 
 <script>
     const history_key = `CNODE_HISTORY`;
+    import {mapState, mapActions} from 'vuex';
+    import userTypes from './../../store/types/user';
+
+    const actions = mapActions({...userTypes});
+
     export default {
         data() {
             return {
-                transitionName: 'slide-left'
+                transitionName: 'slide-left',
+                ...actions
             }
+        },
+        computed: {
+            ...mapState({
+                userPath: state => {
+                    return state.user.userPath
+                }
+            }),
         },
         beforeRouteUpdate(to, from, next) {
-            const names = this.saveName(from.name,to.name);
-            const nextIndex = names.findIndex(name=>name === to.name);
-            const preIndex = names.findIndex(name=>name === from.name);
-            const isBack= nextIndex < preIndex;
-            this.transitionName = isBack?`slide-right`:`slide-left`;
-            if( isBack ) this.deleteName(from.name);
+            const preName = from.name,
+                nextName = to.name;
+
+            this.saveUserPath({
+                pre: preName,
+                next: nextName
+            });
+            const {userPath} = this;
+
+            const nextIndex = userPath.findIndex(name => name === nextName);
+            const preIndex = userPath.findIndex(name => name === preName);
+
+            const isBack = nextIndex < preIndex;
+
+            this.transitionName = isBack ? `slide-right` : `slide-left`;
+
+            if (isBack) this.deleteUserPath(preName);
+
             next();
         },
-        methods: {
-            getNames() {
-                const nameMap = sessionStorage.getItem(history_key) || `[]`;
-                return new Set(JSON.parse(nameMap));
-            },
-            deleteName( name ){
-                const names = this.getNames();
-                names.delete(name);
-                sessionStorage.setItem(history_key,JSON.stringify([...names]));
-            },
-            saveName(pre,next) {
-                const nameMap = new Set(this.getNames());
-                nameMap.add(pre);
-                nameMap.add(next);
-                const nameArray=[...nameMap];
-                sessionStorage.setItem(history_key,JSON.stringify(nameArray));
-                return nameArray;
-            }
-        }
+        methods: {}
     }
 </script>
 
@@ -50,7 +57,7 @@
     .child-view {
         position: absolute;
         width: 100%;
-        transition: all .4s cubic-bezier(.55, 0, .1, 1);
+        transition: all .5s cubic-bezier(0.23, 1, 0.32, 1);
         opacity: 1;
         top: 0;
         left: 0;
@@ -58,12 +65,12 @@
 
     .slide-left-enter, .slide-right-leave-active {
         opacity: 0;
-        transform: translate(80%, 0);
+        transform: translate(33%, 0);
     }
 
     .slide-left-leave-active, .slide-right-enter {
         opacity: 0;
-        transform: translate(-80%, 0);
+        transform: translate(-33%, 0);
     }
 
     .header {

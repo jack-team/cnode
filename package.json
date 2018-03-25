@@ -27,7 +27,8 @@
     "jroll-pulldown": "^1.0.0",
     "vue": "^2.3.3",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "vuex-persistedstate": "^2.5.1"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.1",

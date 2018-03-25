@@ -103,7 +103,7 @@
         mounted(){
             this.networker=setTimeout(()=>{
                 this.getData();
-            },500);
+            },600);
         },
 
         beforeDestroy(){
