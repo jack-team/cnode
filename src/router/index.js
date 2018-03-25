@@ -5,63 +5,62 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-Vue.use(VueRouter);
-
-import SceneAni from './../components/SceneAni/index';
-
 import LazyLoad from '../components/LazyLoad';
 
-const routers = [
-    {
+const setRouter = routers => {
+    const redirectTo = `/topic/good`;
+    routers.forEach(route => {
+        const { component } = route;
+        if (component) {
+            route.component = LazyLoad(component);
+        }
+    });
+    return [{
         path: '/',
-        component: SceneAni,
-        redirect:'/topic/good',
-        children: [
-            {
-                path: '/topic/:category',
-                name: 'topic',
-                component: () => import('../views/index.vue')
-            },
-            {
-                path: '/detail/:id',
-                name: 'detail',
-                component: () => import('../views/detail.vue')
-            },
-            {
-                path: '/release',
-                name: 'release',
-                component: () => import('../views/release.vue'),
-                shouldLogin: true
-            },
-            {
-                path: '/user/:loginName',
-                name: 'user',
-                component: () => import('../views/user.vue'),
-                shouldLogin: true
-            },
-            {
-                path: '/message',
-                name: 'message',
-                component: () => import('../views/message.vue'),
-                meta: {
-                    shouldLogin: true
-                }
-            },
-        ]
-    },
-
-    {
+        name:'rt',
+        redirect: redirectTo,
+    }, ...routers, {
         path: '*',
-        redirect: '/topic/good'
-    }
-];
+        name:'404',
+        redirect: redirectTo
+    }]
+};
 
-routers[0].children.forEach(route => {
-    const {component} = route;
-    if (component) {
-        route.component = LazyLoad(component);
+const routers = setRouter([
+    {
+        path: '/topic/:category',
+        name: 'topic',
+        component: () => import('../views/index.vue')
+    },
+    {
+        path: '/detail/:id',
+        name: 'detail',
+        component: () => import('../views/detail.vue')
+    },
+    {
+        path: '/release',
+        name: 'release',
+        component: () => import('../views/release.vue')
+    },
+    {
+        path: '/user/:loginName',
+        name: 'user',
+        component: () => import('../views/user.vue'),
+        meta: {
+            shouldLogin: true
+        }
+    },
+    {
+        path: '/message',
+        name: 'message',
+        component: () => import('../views/message.vue'),
+        meta: {
+            shouldLogin: true
+        }
     }
-});
+]);
+
+Vue.use(VueRouter);
 
 export default new VueRouter({
     history: true,
