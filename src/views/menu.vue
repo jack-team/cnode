@@ -36,32 +36,15 @@
                 });
             },
             onRelease(){
-                this.$emit(`click`);
-                this.timeOut.push(
-                    setTimeout(()=>{
-                        this.$router.push(`/release`);
-                    },350)
-                )
+                this.$router.push(`/release`);
             },
             goMy(){
                 const { loginname } = this.userState;
-                this.$emit(`click`);
-                this.timeOut.push(
-                    setTimeout(() => {
-                        this.$router.push(`/user/${loginname}`);
-                    },350)
-                )
+                this.$router.push(`/user/${loginname}`);
             },
             onMessage(){
                 const isLogin = getUserLogin();
-                this.timeOut.push(
-                    setTimeout(()=> {
-                        this.$router.push(`/message`);
-                    },isLogin ? 350 :0 )
-                )
-                if(isLogin) {
-                    this.$emit(`click`);
-                }
+                this.$router.push(`/message`);
             }
         }
     }

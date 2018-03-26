@@ -45,4 +45,19 @@ Vue.directive(`textarea-auto`, {
 });
 
 
+Vue.directive(`transition-direction`,{
+    bind:(el, binding)=>{
+        const { value , name } = binding;
+        el.setAttribute(name,value);
+    },
+    componentUpdated:(el,binding)=>{
+        const { value , name } = binding;
+        const direction = el.getAttribute(name);
+        if(direction!==value) {
+            el.setAttribute(name,value);
+        }
+    }
+});
+
+
 

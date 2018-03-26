@@ -5,6 +5,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import Scene from './../components/Scene';
+
 import LazyLoad from '../components/LazyLoad';
 
 const setRouter = routers => {
@@ -18,8 +20,10 @@ const setRouter = routers => {
     return [{
         path: '/',
         name:'rt',
+        children:routers,
+        component:Scene,
         redirect: redirectTo,
-    }, ...routers, {
+    },{
         path: '*',
         name:'404',
         redirect: redirectTo
@@ -45,10 +49,7 @@ const routers = setRouter([
     {
         path: '/user/:loginName',
         name: 'user',
-        component: () => import('../views/user.vue'),
-        meta: {
-            shouldLogin: true
-        }
+        component: () => import('../views/user.vue')
     },
     {
         path: '/message',
