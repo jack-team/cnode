@@ -10,7 +10,7 @@ const LazyLoad = function (Component) {
     return () => {
         const closeSplash = showSplash();
         return Component().finally(() => {
-            setTimeout(()=>closeSplash(),650)
+            setTimeout(()=>closeSplash(),550)
         })
     }
 };
