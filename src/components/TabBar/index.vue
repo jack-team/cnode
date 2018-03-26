@@ -217,7 +217,7 @@
         .content-ani {
             height: 100%;
             position: relative;
-            /*transition: all .3s cubic-bezier(0.23, 1, 0.32, 1);*/
+            transition: all .3s cubic-bezier(.36, .66, .04, 1);
         }
     }
 

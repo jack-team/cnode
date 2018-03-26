@@ -44,9 +44,10 @@
 </template>
 
 <script>
-    import {TabBar, TabbarItem,Empty,Loading} from './../components';
+    import {TabBar, TabbarItem, Empty, Loading} from './../components';
     import userTypes from './../store/types/user';
     import {mapState, mapActions} from 'vuex';
+
     const actions = mapActions({...userTypes});
     export default {
         name: "user",
@@ -82,9 +83,9 @@
                 const {recent_replies, recent_topics} = this.user;
                 return [recent_replies, recent_topics];
             },
-            isme(){
-                const { loginname} = this.userState.userInfo || {};
-                return loginname === (this.user||{}).loginname;
+            isme() {
+                const {loginname} = this.userState.userInfo || {};
+                return loginname === (this.user || {}).loginname;
             }
         },
         methods: {
@@ -92,11 +93,11 @@
             pageChange(page) {
                 this.page = page;
             },
-            jump(item){
+            jump(item) {
                 this.$router.push(`/detail/${item.id}`);
             },
-            loginOut(){
-                this.$PopUp.confirm(`提示`,`确定要退出登录吗？`,()=>{
+            loginOut() {
+                this.$PopUp.confirm(`提示`, `确定要退出登录吗？`, () => {
                     this.unLogin();
                     this.$router.replace(`/`);
                 })
@@ -151,8 +152,6 @@
     .score {
         margin-bottom: 4px;
     }
-
-
 
     .item-container {
         background: #fff;
