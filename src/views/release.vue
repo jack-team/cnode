@@ -1,28 +1,26 @@
 <template>
     <div class="ms-page bg-white" v-has-header>
-        <MsHeader :title="'发表主题'"></MsHeader>
+        <THeader :title="'发表主题'"></THeader>
         <form class="sub-form" @submit.prevent="onSubmit">
             <input type="text" class="title" placeholder="请输入主题" v-model="title"/>
             <div class="content">
                 <textarea placeholder="请输入内容" v-textarea-auto v-model="content"></textarea>
             </div>
             <div class="select-box">
-                <MsSelect :options="options" v-model="type" :title="'请选择发布类型'"></MsSelect>
+                <Tselect :options="options" v-model="type" :title="'请选择发布类型'"></Tselect>
             </div>
-            <MsButton class="button">发布</MsButton>
+            <TButton class="button">发布</TButton>
         </form>
     </div>
 </template>
 
 <script>
-    import { MsHeader , MsButton , MsSelect } from './../components';
+    import { Tselect } from './../components';
     import { mapActions , mapState } from 'vuex'
     export default {
         name: "release",
         components:{
-            MsHeader,
-            MsButton,
-            MsSelect
+            Tselect
         },
         data(){
             const options = [

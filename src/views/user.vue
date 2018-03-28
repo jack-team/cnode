@@ -1,6 +1,6 @@
 <template>
     <div class="ms-page" v-has-header>
-        <MsHeader :title="'用户中心'">
+        <THeader :title="'用户中心'">
             <div class="user-center" slot="bottom" v-if="!!user">
                 <div class="user-avator" :style="{backgroundImage:`url(${user.avatar_url})`}"></div>
                 <div class="center-right">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <button slot="right" v-if="isme" class="login-out" @click="loginOut">退出</button>
-        </MsHeader>
+        </THeader>
         <div class="container">
             <TabBar :tableLabel="tableLabel" :hasLine="true" :page="page" :onChange="pageChange" v-if="!!user">
                 <TabbarItem v-for="(items,index) in itemList" :key="index">

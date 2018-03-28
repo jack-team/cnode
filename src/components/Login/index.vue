@@ -1,9 +1,9 @@
 <template>
     <div class="login-page" v-has-header>
-        <MsHeader :goBack="goBack" :close="true" :title="'登录'"></MsHeader>
+        <THeader :goBack="goBack" :close="true" :title="'登录'"></THeader>
         <form class="login-form" @submit.prevent="onSubmit">
             <input type="text" class="login-input" v-model="token" placeholder="请输入Access Token">
-            <MsButton class="login-btn">登录</MsButton>
+            <TButton class="login-btn">登录</TButton>
         </form>
     </div>
 </template>

@@ -4,22 +4,30 @@
             <div class="author">
                <div class="left">
                    <div class="author-avator" :style="{backgroundImage:`url(${item.author.avatar_url})`}"></div>
-                   <div class="author-name">{{item.author.loginname}}</div>
+                   <div class="author-name">
+                       {{item.author.loginname}}
+                   </div>
                </div>
                <div class="right">
                    {{getTime(item.last_reply_at)}}
                </div>
             </div>
             <div class="desc">
-                <p class="title">{{item.title}}</p>
+                <p class="title">
+                    {{item.title}}
+                </p>
                 <div class="desc-icon">
                     <div class="desc-item">
                         <i class="icon eye"></i>
-                        <span class="number">{{item.visit_count}}</span>
+                        <span class="number">
+                            {{item.visit_count}}
+                        </span>
                     </div>
                     <div class="desc-item">
                         <i class="icon comment"></i>
-                        <span class="number">{{item.reply_count}}</span>
+                        <span class="number">
+                            {{item.reply_count}}
+                        </span>
                     </div>
                 </div>
             </div>

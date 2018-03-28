@@ -1,6 +1,6 @@
 <template>
     <div class="ms-page message-page" v-has-header>
-        <MsHeader :title="`消息`"></MsHeader>
+        <THeader :title="`消息`"></THeader>
         <TabBar :tableLabel="tableLabel" :page="page" :hasLine="true" :onChange="pageChange">
             <TabbarItem v-for="(message,index) in messages" :key="index">
                 <ScrollView>
@@ -32,7 +32,6 @@
 
 <script>
     import {
-        MsHeader,
         TabBar,
         TabbarItem,
         ScrollView,
@@ -46,7 +45,6 @@
     export default {
         name: "message",
         components:{
-            MsHeader,
             TabBar,
             TabbarItem,
             ScrollView,

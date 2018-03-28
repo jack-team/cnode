@@ -1,8 +1,8 @@
 <template>
     <div class="ms-page" v-has-header>
-        <MsHeader :showLeft="false" :title="title">
+        <THeader :showLeft="false" :title="title">
             <button class="menu-icon" slot="left" @click="()=>this.leftSlider=true"></button>
-        </MsHeader>
+        </THeader>
         <TabBar :tableLabel="tableLabel" :page="page" :onChange="pageChange">
             <TabbarItem v-for="(tab,index) in tableLabel" :key="tab.name">
                 <CenterContent v-if="!!savePage[`page_${index}`]" :category="tab.category"></CenterContent>
@@ -24,7 +24,6 @@
     import CenterContent from './center';
     export default {
         components: {
-            MsHeader,
             TabBar,
             TabbarItem,
             Modal,

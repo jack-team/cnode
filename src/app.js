@@ -9,15 +9,15 @@ const {$nextTick} = Vue.prototype;
 import {
     App,
     Login,
-    MsButton,
-    MsHeader,
+    TButton,
+    THeader,
     ScrollView
 } from './components';
 
 //全局注册组件
 Vue.component(`ScrollView`, ScrollView);
-Vue.component(`MsButton`, MsButton);
-Vue.component(`MsHeader`, MsHeader);
+Vue.component(`TButton`, TButton);
+Vue.component(`THeader`, THeader);
 
 //指令
 import './directive';
@@ -31,7 +31,7 @@ import router from './router';
 
 import store from './store';
 
-import PopUp from './components/PopUp'
+import PopUp from './components/PopUp';
 
 const $PopUp = new PopUp();
 

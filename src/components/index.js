@@ -1,25 +1,27 @@
-import MsHeader from './Header/index';
+import THeader from './Header/index';
 import TabBar from './TabBar/index';
 import TabbarItem from './TabBar/item';
 import App from './App';
 import ScrollView from './ScrollView';
 import Modal from './Modal/Modal';
-import MsButton from './Button/index';
+import TButton from './Button/index';
 import Loading from './Loading/index';
-import MsSelect from './Select/index';
+import Tselect from './Select/index';
 import Login from './Login/index';
 import Empty from './Empty';
+import Timage from './Image';
 
 export {
-    MsHeader,
+    THeader,
     TabBar,
     TabbarItem,
     App,
     ScrollView,
     Modal,
-    MsButton,
+    TButton,
     Loading,
-    MsSelect,
+    Tselect,
     Login,
-    Empty
+    Empty,
+    Timage
 }

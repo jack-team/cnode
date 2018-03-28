@@ -1,37 +1,46 @@
 <template>
     <div class="ms-page" v-has-header>
-        <MsHeader :title="`详情`"></MsHeader>
+        <THeader :title="`详情`"></THeader>
         <ScrollView :useRefresh="true" @refresh="getData">
-            <div v-if="!!getDesc">
+            <div v-if="has">
                 <div class="desc">
-                    <h3 class="top-title">{{getDesc.title}}</h3>
+                    <h3 class="top-title">{{topicDetail.title}}</h3>
                     <div class="others">
                         <div class="left">
-                            <div class="avator" :style="getBgStyle(getDesc)"></div>
+                            <Timage
+                               class="avator"
+                               :src="getImgUri(topicDetail)"
+                               @click="goUser(topicDetail)"
+                            >
+                            </Timage>
                             <div class="user-desc">
-                                <div>{{getDesc.author.loginname}}</div>
-                                <div>发布于{{getTime(getDesc.create_at)}}</div>
+                                <div>{{author.loginname}}</div>
+                                <div>发布于{{getTime(topicDetail.create_at)}}</div>
                             </div>
                         </div>
                         <div class="right">
-                            <span>{{getDesc.visit_count}}次浏览</span>
+                            <span>{{topicDetail.visit_count}}次浏览</span>
                         </div>
                     </div>
                 </div>
-                <div class="detail" v-html="getDesc.content" @click="findNodes"></div>
+                <div class="detail" v-html="topicDetail.content" @click="findNodes"></div>
                 <div class="comment-container">
                     <div class="comment-header">
                         <div class="comment-num">
-                            共{{getDesc.reply_count}}条回复
+                            共{{topicDetail.reply_count}}条回复
                         </div>
-                        <ms-button class="comment-btn" @click="showCommentModal">
+                        <TButton class="comment-btn" @click="showCommentModal">
                             点击评论
-                        </ms-button>
+                        </TButton>
                     </div>
-                    <div class="comment-content" v-if="!!getDesc.replies.length">
-                        <div v-for="comment in getDesc.replies" class="comment-list">
+                    <div class="comment-content" v-if="!!replies.length">
+                        <div v-for="comment in replies" class="comment-list">
                             <div class="comment-user">
-                                <div class="user-avator" :style="getBgStyle(comment)" @click="goUser(comment)"></div>
+                                <Timage
+                                   class="user-avator"
+                                   :src="getImgUri(comment)"
+                                   @click="goUser(comment)">
+                                </Timage>
                                 <div class="user-desc">
                                     <div>{{comment.author.loginname}}</div>
                                     <div>{{getTime(comment.create_at)}}</div>
@@ -55,95 +64,112 @@
                     >
                     </textarea>
                 </div>
-                <button class="send-btn">发布</button>
+                <button class="send-btn">
+                    发布
+                </button>
             </form>
         </Modal>
     </div>
 </template>
 
 <script>
-    import { MsHeader , Modal ,MsButton } from './../components';
-    import { mapActions , mapState } from 'vuex'
+    import { Modal,Timage} from './../components';
+    import {mapActions, mapState} from 'vuex'
     import detailTypes from './../store/types/detail';
+
     const actions = mapActions({...detailTypes});
     export default {
         name: "detail",
-        components:{
-            MsHeader,
+        components: {
             Modal,
-            MsButton
+            Timage
         },
-        data(){
+        data() {
             return {
                 ...actions,
-                isToTop:true,
-                commentText:``,
-                modalShow:false,
-                disabledRefresh:false,
+                isToTop: true,
+                commentText: ``,
+                modalShow: false,
+                disabledRefresh: false,
             }
         },
-        computed:{
+        computed: {
             ...mapState({
-                detail: state => {
+                details: state => {
                     return state.detail
                 },
-                userState:state=>state.user
+                userState: state => state.user
             }),
 
-            getTopicId(){
+            topicId(){
                 const { params } = this.$route;
                 return params.id;
             },
 
-            getDesc(){
-                const { desc } = this.detail;
-                return desc[this.getTopicId];
+            topicDetail(){
+                const { desc } = this.details;
+                return desc[this.topicId]||{};
+            },
+
+            has(){
+                const { topicDetail } = this;
+                return !!Object.keys(topicDetail).length;
+            },
+
+            author(){
+                const { author } = this.topicDetail;
+                return author;
+            },
+
+            replies(){
+                const { replies } = this.topicDetail;
+                return replies;
             }
         },
-        mounted(){
-            this.networker=setTimeout(()=>{
+        mounted() {
+            this.networker = setTimeout(() => {
                 this.getData();
-            },600);
+            }, 600);
         },
 
-        beforeDestroy(){
-            this.networker&&clearTimeout(this.networker);
+        beforeDestroy() {
+            this.networker && clearTimeout(this.networker);
         },
 
-        methods:{
-            getData(cb=()=>{}){
-                return this.getDetail(this.getTopicId).then(cb)
+        methods: {
+            getData(cb = () => {}) {
+                return this.getDetail(this.topicId).then(cb)
             },
-            onRefresh(cb){
+            onRefresh(cb) {
                 this.getData().then(cb);
             },
-            getTime:time=>{
+            getTime: time => {
                 return diffTime(time);
             },
-            findNodes(e){
-               const target = e.target;
-               if(target.nodeName === `IMG`) {
-                  console.log(target.src)
-               }
+            findNodes(e) {
+                const target = e.target;
+                if (target.nodeName === `IMG`) {
+                    console.log(target.src)
+                }
             },
-            showCommentModal(){
-                this.modalShow=!this.modalShow
+            showCommentModal() {
+                this.modalShow = !this.modalShow
             },
-            getBgStyle({author}){
-                const uri=`url(${author.avatar_url})`;
-                return { backgroundImage:uri }
+
+            getImgUri({author}){
+                return author.avatar_url;
             },
-            onSubmit(){
-                let { commentText, userState } = this;
+            onSubmit() {
+                let {commentText, userState} = this;
                 commentText = trim(commentText);
-                if(!commentText){
+                if (!commentText) {
                     return this.$PopUp.tip(`请输入评论`);
                 }
 
                 const isLogin = getUserLogin();
 
-                if(!isLogin) {
-                    return this.$openLogin(cb=>{
+                if (!isLogin) {
+                    return this.$openLogin(cb => {
                         cb();
                         this.commenting();
 
@@ -151,22 +177,22 @@
                 }
                 this.commenting();
             },
-            commenting(){
-                let { commentText, userState } = this;
-                const { access_token } = userState;
+            commenting() {
+                let {commentText, userState} = this;
+                const {access_token} = userState;
                 loading(`发送中...`);
-                this.$http.post(`/topic/${this.getTopicId}/replies`,{
-                    accesstoken:access_token,
-                    content:commentText
-                }).then(()=>{
+                this.$http.post(`/topic/${this.topicId}/replies`, {
+                    accesstoken: access_token,
+                    content: commentText
+                }).then(() => {
                     this.$PopUp.toast(`评论成功！`);
                     this.getData();
-                    this.commentText=``;
+                    this.commentText = ``;
                     this.showCommentModal();
                 }).finally(loadingClose);
             },
-            goUser(item){
-                const {loginname}=item.author;
+            goUser(item) {
+                const {loginname} = item.author;
                 this.$router.push(`/user/${loginname}`);
             }
         }
@@ -219,15 +245,14 @@
             width: 36px;
             height: 36px;
             border-radius: 18px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
     }
+
     .detail {
         width: 100%;
         margin: 4px 0;
     }
+
     .comment-container {
         background-color: #fff;
 
@@ -253,7 +278,7 @@
                 padding-top: 12px;
                 border-bottom: 1px solid #ececec;
 
-                &:last-child{
+                &:last-child {
                     border-bottom: none;
                 }
             }
@@ -265,9 +290,6 @@
                 width: 36px;
                 height: 36px;
                 border-radius: 18px;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
             }
             .user-desc {
                 flex: 1;
@@ -280,13 +302,14 @@
             }
         }
     }
+
     .comment-form {
         width: 100%;
         background-color: #fff;
         display: flex;
         border-top: 1px solid #FF5655;
         align-items: center;
-        padding:10px 0 10px 10px ;
+        padding: 10px 0 10px 10px;
         .input-wrapper {
             min-height: 36px;
             flex: 1;
@@ -303,7 +326,7 @@
             border: none;
             font-size: 14px;
             color: #565656;
-            resize:none;
+            resize: none;
             padding: 0;
             height: 22px;
         }
