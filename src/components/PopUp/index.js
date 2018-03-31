@@ -113,8 +113,8 @@ class popup extends Manager {
         const _self = this;
         this._tipLoading = this.create(TipLoading,{
             position:`center`,
-            maskDuration:200,
-            contentDuration:200,
+            maskDuration:300,
+            contentDuration:300,
             show:false,
             opacity:.2,
             customStyle:{
@@ -135,7 +135,7 @@ class popup extends Manager {
     }
 
     loadingClose(){
-        if(this._tipLoading) {
+        if(this._tipLoading && this._tipLoading.show) {
             this._tipLoading.show=false;
         }
     }
