@@ -31,13 +31,17 @@ const post = (url, para) => common(`post`, url, para);
 
 const upload = para => {
     const uploadUrl = `http://upload.yutao2012.com`;
-    return axios.put(uploadUrl, para).then(({data})=>{
-        if(data.code!==200) {
+    return axios.put(uploadUrl, para, {
+        headers: {
+            Authorization: `CE3CA381E7675B4F61D6E316BA156131`
+        }
+    }).then(({data}) => {
+        if (data.code !== 200) {
             return Promise.reject(`上传失败！`);
         } else {
             return data.data;
         }
-    }).catch(()=>{
+    }).catch(() => {
         return Promise.reject(`上传失败！`);
     })
 };
