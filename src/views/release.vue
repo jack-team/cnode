@@ -9,8 +9,14 @@
             <div class="upload-group">
                 <p class="name">添加图片</p>
                 <div class="upload-image-wrapper">
-                    <Timage v-for="img in imgs" :src="img" class="img-list"></Timage>
-                    <Upload class="img-upload" :uploadSuccess="uploadSuccess" :uploading="uploading"></Upload>
+                    <Timage v-for="(img,i) in imgs" :src="img" class="img-list" :key="i"></Timage>
+                    <Upload
+                        class="img-upload"
+                        :uploadSuccess="uploadSuccess"
+                        :uploading="uploading"
+                        :uploadEnded="uploadEnded"
+                    >
+                    </Upload>
                 </div>
             </div>
             <div class="select-box">
@@ -66,6 +72,9 @@
             },
             uploading() {
                 loading();
+            },
+            uploadEnded(){
+               loadingClose();
             },
             onSubmit() {
                 let {title, content} = this;

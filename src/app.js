@@ -72,7 +72,6 @@ window.getUserLogin = () => {
 
 Vue.prototype.$getUserLogin = getUserLogin();
 
-
 router.beforeEach(({meta}, from, next) => $nextTick(() => {
     const isLogin = getUserLogin();
     const {shouldLogin = false} = meta;
