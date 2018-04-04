@@ -55,7 +55,7 @@
 <style lang="scss" scoped>
     .ani-scence {
         position: absolute;
-        transition: all .5s cubic-bezier(.36, .66, .04, 1);
+        transition: all .6s cubic-bezier(.36, .66, .04, 1);
         top: 0;
         left: 0;
     }
@@ -72,7 +72,7 @@
     }
 
     @mixin view-left() {
-        transform: translate3d(-50%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
     }
 
     @mixin view-center() {
@@ -95,12 +95,12 @@
         }
         .page-leave {
             @include view-center();
-            opacity: 0.8;
+            opacity: 0.5;
             z-index: 1;
         }
         .page-leave-to {
             @include view-left();
-            opacity: 0.8;
+            opacity: 0.5;
             z-index: 1;
         }
     }
@@ -108,7 +108,7 @@
     .ani-back {
         .page-enter {
             @include view-left();
-            opacity: 0.8;
+            opacity: 0.5;
             z-index: 1;
         }
         .page-enter-to {
