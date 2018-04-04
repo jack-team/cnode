@@ -55,7 +55,7 @@
 <style lang="scss" scoped>
     .ani-scence {
         position: absolute;
-        transition: all .6s cubic-bezier(.36, .66, .04, 1);
+        transition: all .5s cubic-bezier(.36, .66, .04, 1);
         top: 0;
         left: 0;
     }
