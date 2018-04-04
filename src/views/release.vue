@@ -15,6 +15,7 @@
                         :uploadSuccess="uploadSuccess"
                         :uploading="uploading"
                         :uploadEnded="uploadEnded"
+                        :uploadBefore="uploadBefore"
                     >
                     </Upload>
                 </div>
@@ -67,6 +68,16 @@
                 }).join(``);
                 return str+imgStr;
             },
+            uploadBefore(next){
+               const isLogin = getUserLogin();
+               if(isLogin){
+                   next();
+               }else {
+                   this.$openLogin(close=>{
+                       close();
+                   });
+               }
+            },
             uploadSuccess(img) {
                 this.imgs = this.imgs.concat(img);
             },
@@ -77,33 +88,20 @@
                loadingClose();
             },
             onSubmit() {
-                let {title, content} = this;
+                const title = trim(this.title),
+                      content = trim(this.content);
 
                 let errMsg = null;
 
-                title = trim(title);
+                if (!title) errMsg = `请输入标题！`;
 
-                content = trim(content);
+                if (title.length < 10) errMsg = `标题不能小于小于10个字`;
 
-                if (!title) {
-                    errMsg = `请输入标题！`;
-                }
+                if (!content)  errMsg = `请输入内容`;
 
-                if (title.length < 10) {
-                    errMsg = `标题不能小于小于10个字`;
-                }
+                if (content.length < 15) errMsg = `内容不能小于15个字`;
 
-                if (!content) {
-                    errMsg = `请输入内容`;
-                }
-
-                if (content.length < 15) {
-                    errMsg = `内容不能小于15个字`;
-                }
-
-                if (!!errMsg) {
-                    return this.$PopUp.tip(errMsg);
-                }
+                if (!!errMsg) return this.$PopUp.tip(errMsg);
 
                 const isLogin = getUserLogin();
 
@@ -113,6 +111,7 @@
                         this.release();
                     });
                 }
+
                 this.release();
             },
             release() {
