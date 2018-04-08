@@ -24,13 +24,13 @@
             ...mapState({
                 userPath: state => state.user.userPath
             }),
-            aniDirection(){
+            aniDirection() {
                 return `action-${this.direction}`
             }
         },
-        beforeRouteUpdate(to, from, nextRoute ){
+        beforeRouteUpdate(to, from, nextRoute) {
             const preName = from.name,
-                 nextName = to.name;
+                nextName = to.name;
             if (!preName) {
                 return false;
             }
@@ -46,7 +46,10 @@
             if (isBack) {
                 this.deleteUserPath(preName);
             }
-            this.$nextTick(()=> nextRoute());
+            if (nextName === `topic`) {
+                this.deleteUserPath();
+            }
+            this.$nextTick(() => nextRoute());
         }
     }
 </script>
@@ -76,7 +79,7 @@
     }
 
     @mixin view-center() {
-        transform: translate3d(0,0,0);
+        transform: translate3d(0, 0, 0);
     }
 
     .action-forward {
@@ -86,7 +89,7 @@
             z-index: 2;
         }
         .page-enter-active {
-            box-shadow: 0 0 10px rgba(0,0,0,.15);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
         }
         .page-enter-to {
             @include view-center();
@@ -122,7 +125,7 @@
             z-index: 2;
         }
         .page-leave-active {
-            box-shadow: 0 0 10px rgba(0,0,0,.15);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
         }
         .page-leave-to {
             @include view-right();

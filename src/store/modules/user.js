@@ -58,7 +58,11 @@ export default {
         //删除用户路径
         [types.deleteUserPath](state,path){
             const set = new Set(state.userPath);
-            set.delete(path);
+            if(path){
+                set.delete(path);
+            } else {
+                set.clear();
+            }
             state.userPath=[...set];
         }
     }

@@ -54,8 +54,10 @@
         methods: {
             _goBack() {
                 const len = this.userPath.length;
-                if (!len || len === 1) {
-                    return this.$router.replace(`/`);
+                if(!this.close) {
+                    if (!len || len === 1) {
+                        return this.$router.replace(`/`);
+                    }
                 }
                 this.goBack(() => this.$router.back())
             }
