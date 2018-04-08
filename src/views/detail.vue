@@ -179,6 +179,7 @@
             },
             commenting() {
                 let {commentText, userState} = this;
+                commentText=`${commentText} 来至 [酷炫的cnode社区](http://cnode.yutao2012.com/)`;
                 const {access_token} = userState;
                 loading(`发送中...`);
                 this.$http.post(`/topic/${this.topicId}/replies`, {

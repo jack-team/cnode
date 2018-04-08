@@ -1,7 +1,7 @@
 <template>
     <div class="container" :class="aniDirection">
         <transition :name="transitionName">
-            <router-view class="ani-scence"></router-view>
+            <router-view class="action-scence"></router-view>
         </transition>
     </div>
 </template>
@@ -25,7 +25,7 @@
                 userPath: state => state.user.userPath
             }),
             aniDirection(){
-                return `ani-${this.direction}`
+                return `action-${this.direction}`
             }
         },
         beforeRouteUpdate(to, from, nextRoute ){
@@ -44,7 +44,7 @@
             const isBack = next < pre;
             this.direction = isBack ? `back` : `forward`;
             if (isBack) {
-                this.deleteUserPath(preName)
+                this.deleteUserPath(preName);
             }
             this.$nextTick(()=> nextRoute());
         }
@@ -53,7 +53,7 @@
 
 
 <style lang="scss" scoped>
-    .ani-scence {
+    .action-scence {
         position: absolute;
         transition: all .5s cubic-bezier(.36, .66, .04, 1);
         top: 0;
@@ -79,7 +79,7 @@
         transform: translate3d(0,0,0);
     }
 
-    .ani-forward {
+    .action-forward {
         .page-enter {
             @include view-right();
             opacity: 1;
@@ -105,7 +105,7 @@
         }
     }
 
-    .ani-back {
+    .action-back {
         .page-enter {
             @include view-left();
             opacity: 0.5;
