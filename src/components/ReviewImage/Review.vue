@@ -16,14 +16,14 @@
         },
         beforeDestroy() {
             if (!!this.viewer) {
-                const { jroll, viewer} = this.viewer;
+                const {jroll, viewer} = this.viewer;
                 jroll.destroy();
                 document.body.removeChild(viewer);
             }
         },
         methods: {
             openModal({currentTarget, target}) {
-                const { nodeName } = target;
+                const {nodeName, src} = target;
 
                 if (nodeName.toLocaleUpperCase() !== `IMG`) {
                     return false;
@@ -34,11 +34,13 @@
                 }
 
                 if (!this.viewer) {
-                    this.initReView()
+                    this.initReView(src)
                 }
             },
-            initReView() {
-                this.viewer = new JRollViewer(this.$refs.el)
+            initReView(src) {
+                const index = this.imgs.findIndex(img => img.src === src);
+                this.viewer = new JRollViewer(this.$refs.el);
+                this.viewer.show(index);
             },
             setAttr(target) {
                 this.imgs = [...target.querySelectorAll(`img`)];
