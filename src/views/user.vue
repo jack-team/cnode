@@ -89,7 +89,7 @@
             }
         },
         methods: {
-            getTime: time => diffTime(time),
+            getTime: time => formatTime(time),
             pageChange(page) {
                 this.page = page;
             },

@@ -84,7 +84,7 @@
             pageChange( page ){
                 this.page = page;
             },
-            getTime:time=>diffTime(time),
+            getTime:time=>formatTime(time),
             goUser(item){
                 const { loginname } = item.author;
                 this.$router.push(`/user/${loginname}`);

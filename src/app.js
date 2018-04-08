@@ -40,8 +40,9 @@ const $openLogin = cb => (
         position: `bottom`,
         opacity: 0,
         maskDuration: 300,
-        contentDuration: 300,
-        disableTapClose: true
+        contentDuration: 400,
+        disableTapClose: true,
+        cubicBezier:`cubic-bezier(.36, .66, .04, 1)`
     }, {success: cb})
 );
 

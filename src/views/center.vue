@@ -115,7 +115,7 @@
             bindScroll({ y }){
                this.scrollY = y;
             },
-            getTime:time=>diffTime(time)
+            getTime:time=>formatTime(time)
         }
     }
 </script>

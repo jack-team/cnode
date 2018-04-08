@@ -23,7 +23,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="detail" v-html="topicDetail.content" @click="findNodes"></div>
+                <Review>
+                    <div class="detail" v-html="topicDetail.content"></div>
+                </Review>
                 <div class="comment-container">
                     <div class="comment-header">
                         <div class="comment-num">
@@ -76,13 +78,17 @@
     import { Modal,Timage} from './../components';
     import {mapActions, mapState} from 'vuex'
     import detailTypes from './../store/types/detail';
+    import {matchImageUrl} from './../common/util';
+
+    import Review from './../components/ReviewImage'
 
     const actions = mapActions({...detailTypes});
     export default {
         name: "detail",
         components: {
             Modal,
-            Timage
+            Timage,
+            Review
         },
         data() {
             return {
@@ -144,18 +150,11 @@
                 this.getData().then(cb);
             },
             getTime: time => {
-                return diffTime(time);
-            },
-            findNodes(e) {
-                const target = e.target;
-                if (target.nodeName === `IMG`) {
-                    console.log(target.src)
-                }
+                return formatTime(time);
             },
             showCommentModal() {
                 this.modalShow = !this.modalShow
             },
-
             getImgUri({author}){
                 return author.avatar_url;
             },
@@ -172,14 +171,13 @@
                     return this.$openLogin(cb => {
                         cb();
                         this.commenting();
-
                     });
                 }
                 this.commenting();
             },
             commenting() {
                 let {commentText, userState} = this;
-                commentText=`${commentText} 来至 [酷炫的cnode社区](http://cnode.yutao2012.com/)`;
+                commentText=`${commentText} [酷炫的cnode社区](http://cnode.yutao2012.com/)`;
                 const {access_token} = userState;
                 loading(`发送中...`);
                 this.$http.post(`/topic/${this.topicId}/replies`, {

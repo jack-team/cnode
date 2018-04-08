@@ -7,7 +7,7 @@ import '../styles/common.scss';
 import FastClick from "fastclick";
 FastClick.attach(document.body);
 
-window.diffTime = time => {
+window.formatTime = time => {
     const diff = Date.now()-new Date(time).getTime();
     const h = ~~(diff / 3600000),
         m = ~~(diff % 3600000 / 60000 ),
