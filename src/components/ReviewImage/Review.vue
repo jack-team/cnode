@@ -39,7 +39,9 @@
             },
             initReView(src) {
                 const index = this.imgs.findIndex(img => img.src === src);
-                this.viewer = new JRollViewer(this.$refs.el);
+                this.viewer = new JRollViewer(this.$refs.el,{
+                    zoomMax:4
+                });
                 this.viewer.show(index);
             },
             setAttr(target) {

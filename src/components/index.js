@@ -10,6 +10,7 @@ import Tselect from './Select/index';
 import Login from './Login/index';
 import Empty from './Empty';
 import Timage from './Image';
+import Review from './ReviewImage';
 
 export {
     THeader,
@@ -23,5 +24,6 @@ export {
     Tselect,
     Login,
     Empty,
-    Timage
+    Timage,
+    Review
 }

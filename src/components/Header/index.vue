@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
+
     export default {
         name: "ms-header",
         props: {
@@ -44,8 +46,17 @@
                 default: false
             }
         },
+        computed: {
+            ...mapState({
+                userPath: ({user}) => user.userPath
+            })
+        },
         methods: {
             _goBack() {
+                const len = this.userPath.length;
+                if (!len || len === 1) {
+                    return this.$router.replace(`/`);
+                }
                 this.goBack(() => this.$router.back())
             }
         }

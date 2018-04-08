@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import {Tselect, Timage} from './../components';
+    import {Tselect, Timage ,Review } from './../components';
     import Upload from './../components/Upload';
     import {mapActions, mapState} from 'vuex'
 
@@ -38,7 +38,8 @@
         components: {
             Tselect,
             Upload,
-            Timage
+            Timage,
+            Review
         },
         data() {
             const options = [
