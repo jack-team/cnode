@@ -1,5 +1,13 @@
 <template>
-    <ScrollView @refresh="onRefresh" @loadMore="loadMore" :userLoadMore="true" :useRefresh="true" :scrollToY="initScrollY" @scroll="bindScroll">
+    <ScrollView
+        @refresh="onRefresh"
+        @loadMore="loadMore"
+        :userLoadMore="true"
+        :useRefresh="true"
+        :scrollToY="initScrollY"
+        @scroll="bindScroll"
+        @onceLoad="init"
+    >
         <div v-for="(item , index) in getList" class="item" :key="index" @click="jumpToPage(item)">
             <div class="author">
                <div class="left">
@@ -74,7 +82,6 @@
         },
 
         mounted(){
-            this.init();
             this.$nextTick(()=> {
                 this.initScrollY = this.getPageY || 0;
             });
@@ -88,9 +95,9 @@
         },
 
         methods:{
-            init(){
-                if(!!this.getList.length) return;
-                this.loadData(`refresh`);
+            init(fn){
+                if(!!this.getList.length) return fn();
+                this.loadData(`refresh`,fn);
             },
             onRefresh(cb){
                 this.loadData(`refresh`,cb);
