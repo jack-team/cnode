@@ -6,7 +6,6 @@
         :useRefresh="true"
         :scrollToY="initScrollY"
         @scroll="bindScroll"
-        @onceLoad="init"
     >
         <div v-for="(item , index) in getList" class="item" :key="index" @click="jumpToPage(item)">
             <div class="author">
@@ -84,6 +83,7 @@
         mounted(){
             this.$nextTick(()=> {
                 this.initScrollY = this.getPageY || 0;
+                this.init();
             });
         },
 
@@ -95,9 +95,9 @@
         },
 
         methods:{
-            init(fn){
-                if(!!this.getList.length) return fn();
-                this.loadData(`refresh`,fn);
+            init(){
+                if(!!this.getList.length) return;
+                this.loadData(`refresh`);
             },
             onRefresh(cb){
                 this.loadData(`refresh`,cb);

@@ -2,7 +2,9 @@
     <div class="scroll-view" ref="el">
         <div class="scroll-content">
             <slot>
-                <div class="loading bg-common"></div>
+                <div class="loading bg-common">
+
+                </div>
             </slot>
             <div class="load bg-common" v-if="isPullingDown"></div>
         </div>

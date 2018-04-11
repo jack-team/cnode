@@ -34,11 +34,13 @@
                 }
 
                 if (!this.viewer) {
-                    this.initReView()
+                    this.initReView();
+                    const openIndex = this.imgs.findIndex(img=>img.src===target.src);
+                    this.viewer.show(openIndex);
                 }
             },
             initReView() {
-                this.viewer = new JRollViewer(this.$refs.el)
+                this.viewer = new JRollViewer(this.$refs.el);
             },
             setAttr(target) {
                 this.imgs = [...target.querySelectorAll(`img`)];
