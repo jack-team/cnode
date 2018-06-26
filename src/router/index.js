@@ -10,7 +10,7 @@ import Scene from './../components/Scene';
 import LazyLoad from '../components/LazyLoad';
 
 const setRouter = routers => {
-    const redirectTo = `${!__DEV__ ? `/site` : ``}/topic/good`;
+    const redirectTo = `/topic/good`;
     routers.forEach(route => {
         const {component} = route;
         if (component) {
