@@ -10,22 +10,22 @@ import Scene from './../components/Scene';
 import LazyLoad from '../components/LazyLoad';
 
 const setRouter = routers => {
-    const redirectTo = `/topic/good`;
+    const redirectTo = `${!__DEV__ ? `/site` : ``}/topic/good`;
     routers.forEach(route => {
-        const { component } = route;
+        const {component} = route;
         if (component) {
             route.component = LazyLoad(component);
         }
     });
     return [{
         path: '/',
-        name:'rt',
-        children:routers,
-        component:Scene,
+        name: 'rt',
+        children: routers,
+        component: Scene,
         redirect: redirectTo,
-    },{
+    }, {
         path: '*',
-        name:'404',
+        name: '404',
         redirect: redirectTo
     }]
 };
@@ -64,7 +64,8 @@ const routers = setRouter([
 Vue.use(VueRouter);
 
 export default new VueRouter({
-    history: true,
+    mode: __DEV__ ? `hash` : `history`,
+    base: !__DEV__ ? `/site` : ``,
     routes: routers
 });
 
