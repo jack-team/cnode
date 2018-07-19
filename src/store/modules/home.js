@@ -10,7 +10,8 @@ category.forEach(key => {
     initState[key] = {
         list: [],
         page: 0,
-        pageY: 0
+        pageY: 0,
+        isLastPage: false
     }
 });
 
@@ -19,16 +20,26 @@ export default {
     state: initState,
     mutations: {
         [types.getTopicList](state, action) {
-            const { type, page, list, category } = action;
-            state[category].page = page;
+            const {
+                type,
+                page,
+                list,
+                category,
+                isLastPage
+            } = action;
+
+            const categoryState = state[category];
+            categoryState.page = page;
+            categoryState.isLastPage = isLastPage;
+            const topicList = categoryState.list;
+
             if (type === `refresh`) {
-                state[category].list = list;
+                categoryState.list = list;
             }
             else {
-                const topic = state[category];
-                let topicList = topic.list;
-                state[category].list = topicList.concat(list);
+                categoryState.list = topicList.concat(list);
             }
+            state[category] = categoryState;
         },
         [types.savePageScrollY](state, action) {
             const {scrollY, category} = action;

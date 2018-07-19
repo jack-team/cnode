@@ -12,6 +12,10 @@
             <li class="item" @click="onRelease">发表</li>
             <li class="item message" @click="onMessage">消息</li>
         </ul>
+        <a class="git-hub" href="https://github.com/jack-team/cnode">
+            <i class="git-address"></i>
+            <p class="git-text">gitHub</p>
+        </a>
     </div>
 </template>
 <script>
@@ -51,10 +55,11 @@
 </script>
 <style scoped lang="scss">
     .right-menu {
-        width: 190px;
+        width: 200px;
         height: 100%;
         background: #fff;
         padding: 0 10px;
+        position: relative;
     }
     .me-info,.login-entry{
         display: flex;
@@ -111,12 +116,12 @@
     }
     .other-items {
         .item {
-            height: 40px;
+            height: 60px;
             border-bottom: 1px solid #ececec;
             position: relative;
-            line-height: 40px;
+            line-height: 60px;
             padding-left: 40px;
-            font-size: 14px;
+            font-size: 16px;
             color: #545454;
             &:before,&:after {
                 content: '';
@@ -150,5 +155,34 @@
                height: 22px;
            }
         }
+    }
+
+    .git-hub {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .git-address {
+        display: block;
+        width: 33px;
+        height: 32px;
+        background-image: url("./../image/github_icon.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 30px auto 0 auto;
+    }
+
+    .git-text {
+        font-size: 12px;
+        text-align: center;
+        margin-top: 6px;
+        color: #333;
     }
 </style>

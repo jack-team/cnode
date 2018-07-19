@@ -8,9 +8,14 @@
 
 <script type="es6">
     import userTypes from './../store/types/user';
-    import {mapActions, mapState} from 'vuex'
+    import {
+        mapActions,
+        mapState
+    } from 'vuex';
 
-    const actions = mapActions({...userTypes});
+    const actions = mapActions({
+        ...userTypes
+    });
 
     export default {
         data() {
@@ -28,27 +33,25 @@
                 return `action-${this.direction}`
             }
         },
+        methods:{
+            getPathIndex(pathName){
+                return this.userPath.findIndex(path=>pathName === path);
+            }
+        },
         beforeRouteUpdate(to, from, nextRoute) {
             const preName = from.name,
-                nextName = to.name;
-            if (!preName) {
-                return false;
-            }
+                  nextName = to.name;
+            if (!preName) return false;
             this.saveUserPath({
                 pre: preName,
                 next: nextName
             });
-            const {userPath} = this;
-            const next = userPath.findIndex(n => n === nextName);
-            const pre = userPath.findIndex(n => n === preName);
-            const isBack = next < pre;
+            const nextIndex = this.getPathIndex(nextName);
+            const preIndex = this.getPathIndex(preName);
+            const isBack = nextIndex < preIndex;
             this.direction = isBack ? `back` : `forward`;
-            if (isBack) {
-                this.deleteUserPath(preName);
-            }
-            if (nextName === `topic`) {
-                this.deleteUserPath();
-            }
+            if (isBack) this.deleteUserPath(preName);
+            if (nextName === `topic`) this.deleteUserPath();
             this.$nextTick(() => nextRoute());
         }
     }

@@ -4,7 +4,9 @@
 
 import Vue from 'vue';
 
-const {$nextTick} = Vue.prototype;
+const {
+    $nextTick
+} = Vue.prototype;
 
 import {
     App,
@@ -75,11 +77,13 @@ Vue.prototype.$getUserLogin = getUserLogin();
 
 router.beforeEach(({meta}, from, next) => $nextTick(() => {
     const isLogin = getUserLogin();
-    const {shouldLogin = false} = meta;
-    //检查当当前页面需要登录，但是用户未登录，那么弹起登录页面
+    const {
+        shouldLogin = false
+    } = meta;
+    //检查当当前页面需要登录，如果用户未登录，那么弹起登录页面
     if (shouldLogin && !isLogin) {
-        return $openLogin((cb) => {
-            cb();
+        return $openLogin(done => {
+            done();
             next();
         });
     }

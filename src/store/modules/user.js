@@ -53,17 +53,17 @@ export default {
             const set = new Set(state.userPath);
             set.add(pre);
             set.add(next);
-            state.userPath=[...set];
+            state.userPath = [...set];
         },
         //删除用户路径
-        [types.deleteUserPath](state,path){
+        [types.deleteUserPath](state, path) {
             const set = new Set(state.userPath);
-            if(path){
+            if (path) {
                 set.delete(path);
             } else {
                 set.clear();
             }
-            state.userPath=[...set];
+            state.userPath = [...set];
         }
     }
 }

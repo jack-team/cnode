@@ -6,7 +6,8 @@
 
                 </div>
             </slot>
-            <div class="load bg-common" v-if="isPullingDown"></div>
+            <div class="load bg-common" v-if="!isLastPage && isPullingDown"></div>
+            <div class="last-page" v-if="isLastPage">没有更多了~</div>
         </div>
     </div>
 </template>
@@ -69,7 +70,8 @@
 
         data() {
             return {
-                isPullingDown: false
+                isPullingDown: false,
+                isLastPage:false
             }
         },
 
@@ -94,7 +96,10 @@
                     scrollBarFade: true
                 });
 
-                const {useRefresh, userLoadMore} = this;
+                const {
+                    useRefresh,
+                    userLoadMore
+                } = this;
 
                 //检测内容和视口变化
                 this._observeDOM();
@@ -115,8 +120,15 @@
             },
 
             _observeDOM() {
-                const {on, refresh} = this.scroll;
-                const events = [`scrollStart`, `scroll`, `scrollEnd`];
+                const {
+                    on,
+                    refresh
+                } = this.scroll;
+                const events = [
+                    `scrollStart`,
+                    `scroll`,
+                    `scrollEnd`
+                ];
                 events.forEach(evt => (
                     this._bind(on)(evt, () => {
                         if (this._shouldRefresh()) {
@@ -127,11 +139,10 @@
             },
 
             _shouldRefresh() {
-                const {scroll} = this;
                 const els = [`scroller`, `wrapper`];
                 return els.some(s => {
-                    const el = scroll[s],
-                        height = scroll[`${s}Height`];
+                    const el = this.scroll[s],
+                          height = this.scroll[`${s}Height`];
                     const size = getSize(el);
                     return height !== size.height;
                 });
@@ -155,7 +166,9 @@
 
                 //储存点位
                 on(`scrollStart`, e => {
-                    const {y} = this.scroll;
+                    const {
+                        y
+                    } = this.scroll;
                     this.scrollY = y;
                 });
 
@@ -180,16 +193,21 @@
             },
 
             _pullUpRefresh() {
-                const {onEndReachedThreshold} = this;
-                const {y, scrollerHeight, wrapperHeight} = this.scroll;
+                const {
+                    onEndReachedThreshold
+                } = this;
+                const {
+                    y,
+                    scrollerHeight,
+                    wrapperHeight
+                } = this.scroll;
                 const diffY = scrollerHeight - abs(y) - abs(wrapperHeight);
                 if (diffY < onEndReachedThreshold && !this.isPullingDown) {
                     this.isPullingDown = true;
-                    this.$emit(`loadMore`, () => (
-                        setTimeout(() => {
-                            this.isPullingDown = false;
-                        }, 100)
-                    ));
+                    this.$emit(`loadMore`, (isLastPage = false) => {
+                        this.isLastPage = isLastPage;
+                        this.isPullingDown = false;
+                    });
                 }
             },
 
@@ -207,7 +225,9 @@
 
         beforeDestroy() {
             if (!!this.scroll) {
-                const {destroy} = this.scroll;
+                const {
+                    destroy
+                } = this.scroll;
                 this._bind(destroy)();
             }
         }
@@ -243,6 +263,14 @@
         width: 100%;
         background-size: 24px 24px;
         background-image: url("./loading.gif");
+    }
+
+    .last-page {
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
     }
 
 </style>

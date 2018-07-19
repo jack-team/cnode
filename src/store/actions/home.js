@@ -3,16 +3,19 @@ export default  {
     //获取首页列表数据
    [types.getTopicList]({commit},para){
        const { page = 0, category , type } = para;
+       const limit = 30;
        return ajax.get('/topics',{
-           limit:30,
+           limit,
            tab:category,
            page:page
-       }).then(data=>{
+       }).then(data => {
+           const count = data.data.length;
            commit(types.getTopicList,{
                list:data.data,
                page:page,
                category:category,
-               type:type
+               type:type,
+               isLastPage:count < limit
            })
        })
    },

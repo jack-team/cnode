@@ -8,7 +8,7 @@
                 <CenterContent v-if="!!savePage[`page_${index}`]" :category="tab.category"></CenterContent>
             </TabbarItem>
         </TabBar>
-        <Modal :show="leftSlider" :opacity=".5" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease'">
+        <Modal :show="leftSlider" :opacity=".5" :position="'left'" :onClose="()=>this.leftSlider=false" :cubicBezier="'ease-out'">
             <Menu></Menu>
         </Modal>
     </div>
