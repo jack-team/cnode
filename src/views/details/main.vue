@@ -20,9 +20,9 @@
                 </div>
                 <ul class="comments">
                     <li v-for="(item,i) in comments" :key="i">
-                        <img
-                           class="avatar"
-                           :src="item.author.avatar_url"
+                        <Avatar
+                           :size="36"
+                           :url="item.author.avatar_url"
                         />
                         <div class="comment-content">
                             <p class="comment-title">
@@ -65,7 +65,15 @@
        getTimeFromNow
    } from './../../common/utils';
 
-   @Component
+   import {
+       Avatar
+   } from './../../components'
+
+   @Component({
+       components:{
+           Avatar
+       }
+   })
    export default class Details extends Vue {
        @Action(types.getDetailById) getDetailById!:Function;
        @State(({ details }) => details.detail ) details!:DetailsStateContent;
@@ -203,12 +211,6 @@
                 margin-right: 2px;
             }
         }
-    }
-
-    .avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 18px;
     }
 
     .comment-header {

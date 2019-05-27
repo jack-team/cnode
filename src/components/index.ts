@@ -8,6 +8,7 @@ import Dialog from './Dialog';
 import Loading from './Loading';
 import Confirm from './Confirm';
 import LazyLoad from './LazyLoad';
+import Avatar from './Avatar';
 
 export  {
     TabView,
@@ -16,5 +17,6 @@ export  {
     LazyLoad,
     Loading,
     Dialog,
-    Confirm
+    Confirm,
+    Avatar
 }

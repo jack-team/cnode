@@ -9,7 +9,7 @@
             </span>
         </p>
         <div class="desc">
-            <img :src="avatarUrl" class="avatar"/>
+            <Avatar :url="avatarUrl" :size="24" class="avatar"/>
             <div class="content">
                 <div>
                     {{userName}}{{submitTime}}
@@ -26,6 +26,10 @@
         Prop,
         Component
     } from 'vue-property-decorator';
+
+    import {
+        Avatar
+    } from './../../components';
 
     import {
         DataNode
@@ -45,7 +49,11 @@
         dev:`测试`
     } as Tag;
 
-    @Component
+    @Component({
+        components:{
+            Avatar
+        }
+    })
     export default class Item extends Vue {
         @Prop({default:() => {}}) itemData!:DataNode
         get avatarUrl() {
@@ -113,11 +121,7 @@
     }
 
     .avatar {
-        width: 24px;
-        height: 24px;
         margin-right: 6px;
-        border-radius: 12px;
-        border: 1px solid #f2f2f2;
     }
 
     .title {
