@@ -1,0 +1,1 @@
+export const getTopicList = `get/v2/topics`;

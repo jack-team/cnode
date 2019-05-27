@@ -1,79 +1,74 @@
 <template>
-    <div class="container" :class="aniDirection">
-        <transition :name="transitionName">
-            <router-view class="action-scence"></router-view>
+    <div class="scene-view" :class="pageScene">
+        <transition>
+            <keep-alive include="Topics">
+                <router-view class="router-container"/>
+            </keep-alive>
         </transition>
     </div>
 </template>
 
-<script type="es6">
-    import userTypes from './../store/types/user';
+<script lang="ts">
+    import Vue from 'vue';
+
     import {
-        mapActions,
-        mapState
-    } from 'vuex';
+        Route
+    } from 'vue-router';
 
-    const actions = mapActions({
-        ...userTypes
-    });
+    import {
+        Watch,
+        Component
+    } from 'vue-property-decorator';
 
-    export default {
-        data() {
-            return {
-                ...actions,
-                transitionName: `page`,
-                direction: `forward`
-            }
-        },
-        computed: {
-            ...mapState({
-                userPath: state => state.user.userPath
-            }),
-            aniDirection() {
-                return `action-${this.direction}`
-            }
-        },
-        methods:{
-            getPathIndex(pathName){
-                return this.userPath.findIndex(path=>pathName === path);
-            }
-        },
-        beforeRouteUpdate(to, from, nextRoute) {
-            const preName = from.name,
-                  nextName = to.name;
-            if (!preName) return false;
-            this.saveUserPath({
-                pre: preName,
-                next: nextName
-            });
-            const nextIndex = this.getPathIndex(nextName);
-            const preIndex = this.getPathIndex(preName);
-            const isBack = nextIndex < preIndex;
-            this.direction = isBack ? `back` : `forward`;
-            if (isBack) this.deleteUserPath(preName);
-            if (nextName === `topic`) this.deleteUserPath();
-            this.$nextTick(() => nextRoute());
+    const JUMP_PATH:string = `jump/path`;
+    import * as storage from './../common/storage';
+
+    @Component({
+        name: `Scene`
+    })
+    export default class Scene extends Vue {
+        direction: string = ``;
+
+        get pageScene() {
+            return !!this.direction ? `page-${this.direction}` : ``;
+        }
+
+        getIndex(array: Array<string>, value: string) {
+            return array.findIndex(item => item === value);
+        }
+
+        @Watch('$route')
+        onRouteChange(a: Route, b: Route) {
+            let paths: Array<string> = (
+                storage.get(JUMP_PATH) || []
+            );
+            const preName = b.name as string;
+            const nextName = a.name as string;
+            paths.push(...[preName, nextName]);
+            paths = [...new Set(paths)];
+            storage.set(JUMP_PATH, paths);
+            const preIndex = this.getIndex(paths, preName);
+            const nextIndex = this.getIndex(paths, nextName);
+            this.direction = nextIndex < preIndex ? `back` : `forward`;
         }
     }
 </script>
 
-
 <style lang="scss" scoped>
-    .action-scence {
-        position: absolute;
-        transition: all .5s cubic-bezier(.36, .66, .04, 1);
-        top: 0;
-        left: 0;
-    }
-
-    .container {
+    .scene-view {
         width: 100%;
         height: 100%;
         overflow: hidden;
+        position: relative;
     }
-</style>
 
-<style lang="scss">
+    .router-container {
+        top: 0;
+        left: 0;
+        position: absolute;
+        transition: all .5s cubic-bezier(.36, .66, .04, 1);
+    }
+
     @mixin view-right() {
         transform: translate3d(100%, 0, 0);
     }
@@ -86,55 +81,55 @@
         transform: translate3d(0, 0, 0);
     }
 
-    .action-forward {
-        .page-enter {
-            @include view-right();
-            opacity: 1;
-            z-index: 2;
-        }
-        .page-enter-active {
-            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-        }
-        .page-enter-to {
-            @include view-center();
-            opacity: 1;
-            z-index: 2;
-        }
-        .page-leave {
-            @include view-center();
-            opacity: 0.5;
-            z-index: 1;
-        }
-        .page-leave-to {
+    .page-back {
+        .v-enter {
             @include view-left();
             opacity: 0.5;
             z-index: 1;
+        }
+        .v-enter-to {
+            @include view-center();
+            opacity: 1;
+            z-index: 1;
+        }
+        .v-leave {
+            @include view-center();
+            opacity: 1;
+            z-index: 2;
+        }
+        .v-leave-active {
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+        }
+        .v-leave-to {
+            @include view-right();
+            opacity: 1;
+            z-index: 2;
         }
     }
 
-    .action-back {
-        .page-enter {
-            @include view-left();
-            opacity: 0.5;
-            z-index: 1;
-        }
-        .page-enter-to {
-            @include view-center();
-            opacity: 1;
-            z-index: 1;
-        }
-        .page-leave {
-            @include view-center();
-            opacity: 1;
-            z-index: 2;
-        }
-        .page-leave-active {
-            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-        }
-        .page-leave-to {
+    .page-forward {
+        .v-enter {
             @include view-right();
             opacity: 1;
             z-index: 2;
+        }
+        .v-enter-active {
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+        }
+        .v-enter-to {
+            @include view-center();
+            opacity: 1;
+            z-index: 2;
+        }
+        .v-leave {
+            @include view-center();
+            opacity: 0.5;
+            z-index: 1;
+        }
+        .v-leave-to {
+            @include view-left();
+            opacity: 0.5;
+            z-index: 1;
         }
     }
 </style>

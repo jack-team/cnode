@@ -1,7 +1,12 @@
 {
-  "presets": ["env", "vue" , "stage-0"],
+  "presets": [
+    "env",
+    "vue",
+    "stage-0"
+  ],
   "plugins": [
-    "transform-runtime"
+    "transform-runtime",
+    "transform-decorators-legacy"
   ],
   "comments": false
 }

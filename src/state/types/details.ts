@@ -1,0 +1,1 @@
+export const getDetailById = `v2/topics/id`;
