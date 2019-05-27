@@ -26,8 +26,9 @@
 </script>
 
 <style scoped lang="scss">
+    @import "./../../common/var";
     .tab-view-content {
         height: 100%;
-        transition: opacity .5s linear;
+        transition: opacity 1s $bezier;
     }
 </style>

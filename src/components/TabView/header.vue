@@ -104,7 +104,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform .4s $bezier;
+        transition: transform .4s ease-out;
         &::before {
             content: '';
             display: block;

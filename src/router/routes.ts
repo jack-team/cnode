@@ -1,9 +1,12 @@
-import LazyLoad from './../components/LazyLoad';
+import {
+    RouteConfig
+} from 'vue-router';
 
+import LazyLoad from './../components/LazyLoad';
 import Scene from './../components/Scene.vue';
 import Topics from './../views/topics';
 
-const configs: Array<any> = [
+const configs: Array<RouteConfig> = [
     {
         name: 'topic',
         path: '/topic/:tab',

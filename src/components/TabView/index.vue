@@ -28,6 +28,7 @@
     export default class Container extends Vue {
         @Prop({default: 0}) readonly page!: number;
         @Prop({default: true}) readonly scrollX!: boolean;
+        @Prop({default: true}) readonly enableAnimation!:boolean;
 
         counter: number = 0;
         contents: Array<VNode> = [];
@@ -88,7 +89,14 @@
         }
 
         get scrollClass() {
-            return !this.scrollX ? `column` : ``
+            const classList = [];
+            if(this.enableAnimation) {
+                classList.push(`animation`);
+            }
+            if(!this.scrollX ) {
+                classList.push(`column`)
+            }
+            return classList;
         }
 
         get translateX() {
@@ -134,7 +142,10 @@
         position: absolute;
         left: 0;
         top: 0;
-        transition: transform .4s $bezier;
+
+        &.animation {
+            transition: transform .4s $bezier;
+        }
 
         &.column {
             flex-direction: column;
