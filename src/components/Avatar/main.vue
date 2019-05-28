@@ -1,9 +1,10 @@
 <template>
-    <img :src="source" :style="style" class="avatar"/>
+    <div :style="style" class="avatar-style"/>
 </template>
 
 <script lang="ts">
    import Vue from 'vue';
+
    import {
        Prop,
        Watch,
@@ -12,7 +13,9 @@
 
    import avatarPic from './avatar.png';
 
-   @Component
+   @Component({
+       name:`Avatar`
+   })
    export default class Avatar extends Vue {
        @Prop({default:``}) url!:string;
        @Prop({default:60}) size!:number;
@@ -26,7 +29,7 @@
            const image = new Image();
            image.src = this.url;
            image.onload = () => {
-               this.source = this.url;
+               this.source = this.url
            }
        }
 
@@ -34,7 +37,8 @@
            return {
                width:this.size+'px',
                height:this.size+'px',
-               borderRadius:this.size/2+'px'
+               borderRadius:this.size/2+'px',
+               backgroundImage:`url(${this.source})`
            }
        }
 
@@ -46,7 +50,10 @@
 </script>
 
 <style scoped lang="scss">
-    .avatar {
+    .avatar-style {
         border: 1px solid #f2f2f2;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
 </style>

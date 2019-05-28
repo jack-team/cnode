@@ -9,6 +9,7 @@ import Loading from './Loading';
 import Confirm from './Confirm';
 import LazyLoad from './LazyLoad';
 import Avatar from './Avatar';
+import ImageSlide from './ImageSlide';
 
 export  {
     TabView,
@@ -18,5 +19,6 @@ export  {
     Loading,
     Dialog,
     Confirm,
-    Avatar
+    Avatar,
+    ImageSlide
 }

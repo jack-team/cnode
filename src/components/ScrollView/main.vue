@@ -118,6 +118,10 @@
                 this.myScroll.endSuccess(length, hasNext)
             })
         }
+
+        beforeDestroy() {
+            this.myScroll.destroy()
+        }
     }
 
 </script>

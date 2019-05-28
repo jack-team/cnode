@@ -1,44 +1,54 @@
 <template>
     <div class="page">
+        <Loading v-if="isLoading" />
         <ScrollView
-            v-if="!!topicId && !!detail"
+            v-else
             :useLoadMore="false"
             @onRefresh="onRefresh"
         >
-            <div class="header">
-               <h2 class="title">{{title}}</h2>
-                <p class="sc-title">
-                    <span>{{createTime}}</span>
-                    <span>{{authorName}}</span>
-                    <span>{{visitCount}}</span>
-                </p>
-            </div>
-            <div v-html="content" class="content-html"></div>
-            <div class="main" v-if="!!replyCount">
-                <div class="comment-header">
-                    <p>{{replyCount}}条回复</p>
+            <div class="container" ref="wrapper">
+                <div class="header">
+                    <h2 class="title">
+                        {{title}}
+                    </h2>
+                    <p class="sc-title">
+                        <span>{{createTime}}</span>
+                        <span>{{authorName}}</span>
+                        <span>{{visitCount}}</span>
+                    </p>
                 </div>
-                <ul class="comments">
-                    <li v-for="(item,i) in comments" :key="i">
-                        <Avatar
-                           :size="36"
-                           :url="item.author.avatar_url"
-                        />
-                        <div class="comment-content">
-                            <p class="comment-title">
-                                {{item.author.loginname}}
-                                {{getCreateTime(item.create_at)}}
-                            </p>
-                            <div
-                               class="comment-html"
-                               v-html="item.content"
+                <div v-html="content" class="content-html"></div>
+                <div class="main" v-if="!!replyCount">
+                    <div class="comment-header">
+                        <p>{{replyCount}}条回复</p>
+                    </div>
+                    <ul class="comments">
+                        <li :key="i" v-for="(item,i) in comments">
+                            <Avatar
+                               :size="36"
+                               :url="item.author.avatar_url"
                             />
-                        </div>
-                    </li>
-                </ul>
+                            <div class="comment-content">
+                                <p class="comment-title">
+                                    {{item.author.loginname}}
+                                    {{getCreateTime(item.create_at)}}
+                                </p>
+                                <div
+                                   class="comment-html"
+                                   v-html="item.content"
+                                />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </ScrollView>
-        <Loading v-else/>
+        <ImageSlide
+            :index="slideIndex"
+            :items="items"
+            :show="openSlide"
+            @close="onCloseImage"
+        />
     </div>
 </template>
 
@@ -66,33 +76,95 @@
    } from './../../common/utils';
 
    import {
-       Avatar
-   } from './../../components'
+       Avatar,
+       ImageSlide
+   } from './../../components';
 
    @Component({
        components:{
-           Avatar
+           Avatar,
+           ImageSlide
        }
    })
    export default class Details extends Vue {
        @Action(types.getDetailById) getDetailById!:Function;
        @State(({ details }) => details.detail ) details!:DetailsStateContent;
 
-       get topicId():string {
+       private openSlide:boolean = false;
+       private items:Array<any> = [];
+       private slideIndex:number = 0;
+
+       private get topicId():string {
            const {
-               params
+               params = {}
            } = this.$route;
+           return params.id;
+       }
+
+       private created() {
+           this.onClickEvent = this.onClickEvent.bind(this);
+       }
+
+       private async mounted() {
+           try {
+               await this.onLoad();
+               this.bindImageClick();
+           }
+           catch (e) {
+               console.log(e)
+           }
+       }
+
+       private get container():Element {
            const {
-               id
-           } = params;
-           return id;
+               wrapper
+           } = this.$refs;
+           return wrapper as Element;
        }
 
-       mounted() {
-           this.onLoad()
+       private bindImageClick() {
+           this.container.addEventListener(`click`,this.onClickEvent);
        }
 
-       onLoad() {
+       private unBindImageClick() {
+           this.container.removeEventListener(`click`,this.onClickEvent);
+       }
+
+       private get allImage():Array<Element> {
+           return [...this.container.querySelectorAll(`img`)];
+       }
+
+       onClickEvent(e:MouseEvent) {
+           const dom = e.target as Element;
+           if(dom.tagName.toLocaleUpperCase() === `IMG`) {
+               this.onClickImages(dom);
+           }
+       }
+
+       onClickImages(target:Element) {
+           const items = (
+               this.allImage.map((img:any) => {
+                   const {
+                       src,
+                       naturalWidth,
+                       naturalHeight
+                   } = img;
+                   return {
+                       src:src,
+                       w:naturalWidth,
+                       h:naturalHeight
+                   }
+               })
+           )
+           const index = (
+               this.allImage.findIndex(img => img === target)
+           )
+           this.items = items;
+           this.openSlide = true;
+           this.slideIndex = index;
+       }
+
+      async onLoad() {
            return this.getDetailById(this.topicId).
            then(() => document.title = this.title);
        }
@@ -107,8 +179,12 @@
            cb()
        }
 
-       get detail():DetailsData {
-           return this.details[this.topicId];
+       get detail():any | DetailsData {
+           return this.details[this.topicId] || {};
+       }
+
+       get isLoading():boolean {
+           return !this.details[this.topicId];
        }
 
        get content():string {
@@ -145,7 +221,7 @@
 
        get authorName() {
            const {
-               author
+               author = {}
            } = this.detail;
            const {
                loginname
@@ -165,6 +241,14 @@
                reply_count
            } = this.detail;
            return reply_count;
+       }
+
+       private onCloseImage() {
+           this.openSlide = false;
+       }
+
+       private beforeDestroy() {
+           this.unBindImageClick();
        }
    }
 </script>

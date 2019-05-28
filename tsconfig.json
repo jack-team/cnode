@@ -36,14 +36,13 @@
     "target": "es5",
     // 如何处理模块
     "moduleResolution": "node",
-    // 在表达式和声明上有隐含的any类型时报错
-    "noImplicitAny": true,
     "lib": [
       "dom",
       "es5",
       "es6",
       "es7",
-      "es2015.promise"
+      "es2015.promise",
+      "dom.iterable"
     ],
     "sourceMap": true,
     "pretty": true,
