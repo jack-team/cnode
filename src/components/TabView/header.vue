@@ -63,10 +63,14 @@
     @import "./../../common/var";
 
     .nav-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
         width: 100%;
         height: 48px;
         background-color: #fff;
-        border-bottom: 1px solid #ececec;
+        box-shadow: 1px 1px 3px #ececec;
     }
 
     .nav-bar-content {

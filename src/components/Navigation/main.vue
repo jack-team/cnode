@@ -53,7 +53,6 @@
             opacity: .7;
         }
     }
-
     .title {
         position: absolute;
         width: 100%;

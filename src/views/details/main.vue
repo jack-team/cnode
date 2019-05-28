@@ -199,7 +199,7 @@
 
        get title():string {
            const {
-               title = ``
+               title = `CNode: Node.js 专业技术社区`
            } = this.detail;
            return title;
        }
