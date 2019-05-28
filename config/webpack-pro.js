@@ -24,7 +24,7 @@ webpackCommonConfig.output.publicPath = `/static/`;
 
 plugins.push(
     new webpack.DefinePlugin({
-        '__DEV__': false
+        __DEV__: false
     })
 )
 

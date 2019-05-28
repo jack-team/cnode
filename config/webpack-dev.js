@@ -26,7 +26,7 @@ plugins.push(
 
 plugins.push(
     new webpack.DefinePlugin({
-        '__DEV__': true
+        __DEV__: true
     })
 )
 
