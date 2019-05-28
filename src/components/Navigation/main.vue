@@ -62,7 +62,8 @@
         top: 0;
         text-align: center;
         line-height: 48px;
-        font-size: 18px;
+        font-size: 16px;
+        font-weight: 500;
         color: #333;
         padding: 0 56px;
         z-index: 0;
