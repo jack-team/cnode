@@ -11,9 +11,7 @@
                 <div class="pswp__top-bar">
                     <div class="pswp__counter"/>
                     <button class="pswp__button pswp__button--close" title="Close (Esc)"/>
-                    <button class="pswp__button pswp__button--share" title="Share"/>
                     <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"/>
-                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"/>
                     <div class="pswp__preloader">
                         <div class="pswp__preloader__icn">
                             <div class="pswp__preloader__cut">
@@ -78,10 +76,13 @@
             const {
                 el
             } = this.$refs;
+
+            console.log(PhotoSwipeUI)
             const options = {
                 focus: true,
                 history: true,
                 index: this.index,
+                showHideOpacity:true,
                 showAnimationDuration: 500,
                 hideAnimationDuration: 500
             }
