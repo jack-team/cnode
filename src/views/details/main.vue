@@ -1,5 +1,6 @@
 <template>
     <div class="page">
+        <Navigation :title="title"/>
         <Loading v-if="isLoading" />
         <ScrollView
             v-else
@@ -77,13 +78,15 @@
 
    import {
        Avatar,
-       ImageSlide
+       ImageSlide,
+       Navigation
    } from './../../components';
 
    @Component({
        components:{
            Avatar,
-           ImageSlide
+           ImageSlide,
+           Navigation
        }
    })
    export default class Details extends Vue {
@@ -263,6 +266,7 @@
         height: 100%;
         position: relative;
         background-color: #f2f2f2;
+        padding-top: 48px;
     }
 
     .title {

@@ -88,7 +88,6 @@
 
     .page {
         height: 100%;
-        padding-top: 48px;
         position: relative;
     }
 </style>
