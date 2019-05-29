@@ -13,7 +13,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 const options:StoreOptions<any> = {
     plugins: [createPersistedState({
-        storage: sessionStorage
+        storage: localStorage
     })],
     modules: {
         topics,
