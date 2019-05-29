@@ -11,8 +11,8 @@
                     <div class="base-info">
                         <Avatar :url="authorAvatar" :size="28"/>
                         <p class="sc-title">
-                            <span>{{createTime}}</span>
                             <span>{{authorName}}</span>
+                            <span>{{createTime}}</span>
                             <span>{{visitCount}}</span>
                         </p>
                     </div>
