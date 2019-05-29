@@ -19,8 +19,6 @@
         Watch,
         Component
     } from 'vue-property-decorator';
-
-    const JUMP_PATH:string = `jump/path`;
     import * as storage from './../common/storage';
 
     @Component({
@@ -40,13 +38,13 @@
         @Watch('$route')
         onRouteChange(a: Route, b: Route) {
             let paths: Array<string> = (
-                storage.get(JUMP_PATH) || []
+                storage.get(storage.JUMP_PATH) || []
             );
             const preName = b.name as string;
             const nextName = a.name as string;
             paths.push(...[preName, nextName]);
             paths = [...new Set(paths)];
-            storage.set(JUMP_PATH, paths);
+            storage.set(storage.JUMP_PATH, paths);
             const preIndex = this.getIndex(paths, preName);
             const nextIndex = this.getIndex(paths, nextName);
             this.direction = nextIndex < preIndex ? `back` : `forward`;

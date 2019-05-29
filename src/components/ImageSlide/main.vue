@@ -23,8 +23,6 @@
                 <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
                     <div class="pswp__share-tooltip"/>
                 </div>
-                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"/>
-                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"/>
                 <div class="pswp__caption">
                     <div class="pswp__caption__center"/>
                 </div>
@@ -76,8 +74,6 @@
             const {
                 el
             } = this.$refs;
-
-            console.log(PhotoSwipeUI)
             const options = {
                 focus: true,
                 history: true,

@@ -14,4 +14,6 @@ export const set = (key: string, value: any) => {
 }
 
 
+export const JUMP_PATH:string = `jump/path`;
+
 
